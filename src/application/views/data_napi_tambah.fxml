@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DataNapiTambahController">
+   <children>
+      <Pane layoutY="-3.0" prefHeight="65.0" prefWidth="600.0" style="-fx-background-color: #505bda;">
+         <children>
+            <Text fill="WHITE" layoutX="171.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tambah Baru Data Napi ">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+      <Text layoutX="52.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nama lengkap" />
+      <TextField fx:id="noRegis" layoutX="213.0" layoutY="106.0" prefHeight="40.0" prefWidth="300.0" promptText="No Registrasi" />
+      <TextField fx:id="namaLengkap" layoutX="213.0" layoutY="155.0" prefHeight="40.0" prefWidth="300.0" promptText="Nama lengkap" />
+      <Text layoutX="52.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Registrasi" />
+      <Text layoutX="51.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jenis Kelamin" />
+      <ComboBox fx:id="jenisKelamin" layoutX="214.0" layoutY="205.0" prefHeight="40.0" prefWidth="300.0" promptText="Jenis kelamin" />
+      <ComboBox fx:id="blokCombobox" layoutX="214.0" layoutY="255.0" prefHeight="40.0" prefWidth="300.0" promptText="Blok" />
+      <ComboBox fx:id="kamar" layoutX="214.0" layoutY="304.0" prefHeight="40.0" prefWidth="300.0" promptText="Kamar" />
+      <Text layoutX="55.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Blok " />
+      <Text layoutX="55.0" layoutY="329.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kamar" />
+      <Button fx:id="btnSimpan" layoutX="364.0" layoutY="398.0" onAction="#simpanData" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #505bda;" text="Simpan" textFill="WHITE" />
+      <Button fx:id="btnBatal" layoutX="258.0" layoutY="398.0" mnemonicParsing="false" onAction="#batalkan" prefHeight="40.0" prefWidth="86.0" style="-fx-background-color: #f9f9f9;" text="Batalkan" />
+   </children>
+</AnchorPane>
