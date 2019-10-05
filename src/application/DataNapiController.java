@@ -9,20 +9,24 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class DataNapiController implements Initializable {
+
+    private static ObservableList blokData = FXCollections.observableArrayList();
+    private static ConnectionClass connectionClass;
+    private static Connection connection;
 
     @FXML
     private TableView<ModelDataNapi> table_data_pegawai;
@@ -80,13 +84,15 @@ public class DataNapiController implements Initializable {
         colUpdate.setCellValueFactory(new PropertyValueFactory<>("update"));
         colView.setCellValueFactory(new PropertyValueFactory<>("view"));
         colDelete.setCellValueFactory(new PropertyValueFactory<>("delete"));
+        createaBtnView("update");
+        createaBtnView("view");
+        createaBtnView("delete");
     }
 
     private void createTable(){
         ObservableList<ModelDataNapi> data_napi = FXCollections.observableArrayList();
 
-        ConnectionClass connectionClass = new ConnectionClass();
-        Connection connection = connectionClass.getConnection();
+
 
         try{
             String selectData = "SELECT * FROM data_napi " +
@@ -115,14 +121,158 @@ public class DataNapiController implements Initializable {
         table_data_pegawai.setItems(data_napi);
     }
 
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void generateTable(){
         initTable();
         createTable();
+    }
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        connectionClass = new ConnectionClass();
+        connection = connectionClass.getConnection();
+
+        generateTable();
 
         String uid = ShareVariable.getUserid();
 
         System.out.println("load "+ uid);
+    }
+
+    void createaBtnView(String typebtn){
+        Callback<TableColumn<ModelDataNapi, Button>, TableCell<ModelDataNapi, Button>> cellFactory =
+                new Callback<TableColumn<ModelDataNapi, Button>, TableCell<ModelDataNapi, Button>>() {
+
+            @Override
+                    public TableCell<ModelDataNapi, Button> call(TableColumn<ModelDataNapi, Button> param) {
+
+                        final TableCell<ModelDataNapi, Button> cell = new TableCell<ModelDataNapi, Button>(){
+
+                            final  Button btn = new Button(typebtn);
+
+                            @Override
+                            public void updateItem(Button item, boolean empty){
+                                super.updateItem(item, empty);
+
+                                if (empty){
+                                    setGraphic(null);
+                                    setText(null);
+                                }else{
+                                    btn.setOnAction(event -> {
+                                        ModelDataNapi napi = getTableView().getItems().get(getIndex());
+                                        System.out.println(napi.getNapiid());
+                                        initBtnAction(typebtn, napi.getNapiid());
+                                        if (typebtn == "update"){}
+                                    });
+
+                                    setGraphic(btn);
+                                    setText(null);
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+        };
+
+        switch (typebtn){
+            case "update" :
+                colUpdate.setCellFactory(cellFactory);
+                break;
+            case "view" :
+                colView.setCellFactory(cellFactory);
+                break;
+            case "delete":
+                colDelete.setCellFactory(cellFactory);
+                break;
+        }
+
+    }
+
+    void initBtnAction(String typebtn, String id){
+        switch (typebtn) {
+            case "update":
+                acationUpdate(id);
+                break;
+            case "view":
+                actionView(id);
+                break;
+            case "delete":
+                actionDelete(id);
+                break;
+        }
+    }
+
+    void acationUpdate(String id){
+        ShareVariable.setNapiId(id);
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("views/data_napi_tambah.fxml"));
+            Parent parent = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(parent, 600, 500));
+            stage.show();
+        }catch (Exception e){
+            Alert myalert = new Alert(Alert.AlertType.ERROR);
+            myalert.setTitle("connection error");
+            myalert.setContentText("coba periksa koneksi anda");
+        }
+
+    }
+
+    void  actionView(String id){
+
+    }
+
+    void actionDelete(String id){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Konfirmasi");
+        alert.setHeaderText("Hapus data napi");
+        alert.setContentText("Apakah anda yakin menghapus data ini ?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            try{
+                String sql = "UPDATE data_napi SET napi_published = 0 WHERE napi_id = ?";
+                PreparedStatement statement = connection.prepareStatement(sql);
+                statement.setString(1, id);
+                int rs = statement.executeUpdate();
+
+                if (rs > 0){
+                    generateTable();
+                    alert.close();
+                }else{
+                    alert.close();
+                }
+
+            }catch (Exception e){
+                Alert myalert = new Alert(Alert.AlertType.ERROR);
+                myalert.setTitle("connection error");
+                myalert.setContentText("coba periksa koneksi anda");
+            }
+
+        } else {
+            alert.close();
+        }
+    }
+
+    void createListBlok(){
+        ObservableList bloklist = FXCollections.observableArrayList();
+
+        try{
+            String sql = "SELECT * FROM master_blok";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()){
+                ObservableList row = FXCollections.observableArrayList();
+                row.add(rs.getString("master_blok_id"));
+                row.add(rs.getString("blok_nama"));
+                blokData.add(row);
+
+                bloklist.add(rs.getString("blok_nama"));
+            }
+        }catch (Exception e){
+
+        }
+
+
+
     }
 }

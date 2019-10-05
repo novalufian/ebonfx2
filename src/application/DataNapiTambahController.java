@@ -23,6 +23,12 @@ import java.util.ResourceBundle;
 
 public class DataNapiTambahController implements Initializable {
 
+    ObservableList blokData = FXCollections.observableArrayList();
+    ObservableList listKamar = FXCollections.observableArrayList();
+
+    ConnectionClass connectionClass ;
+    Connection connection ;
+
     @FXML
     private TextField noRegis;
 
@@ -50,35 +56,97 @@ public class DataNapiTambahController implements Initializable {
     }
 
     @FXML
+    void actionBlok(ActionEvent event) {
+        listKamar = null;
+        int index =  blokCombobox.getSelectionModel().getSelectedIndex();
+        ObservableList x = (ObservableList) blokData.get(index);
+        String y = (String) x.get(0);
+
+        ObservableList data = FXCollections.observableArrayList();
+        listKamar = FXCollections.observableArrayList();
+
+        try{
+            String sql = "SELECT * FROM master_kamar WHERE master_blok_id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, y);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()){
+                ObservableList row = FXCollections.observableArrayList();
+
+                row.add(rs.getString("master_kamar_id"));
+                row.add(rs.getString("nama_kamar"));
+                listKamar.add(row);
+
+                data.add(rs.getString("nama_kamar"));
+            }
+
+        }catch(Exception e){
+
+        }
+
+        kamar.setItems(data);
+    }
+
+    @FXML
+    void actionKamar(ActionEvent event) {
+        int index = kamar.getSelectionModel().getSelectedIndex();
+        ObservableList x = (ObservableList) listKamar.get(index);
+        String y = (String) x.get(0);
+
+        System.out.println(y);
+    }
+
+    @FXML
     void simpanData(ActionEvent event) {
+        ObservableList x = (ObservableList) listKamar.get(kamar.getSelectionModel().getSelectedIndex());;
+
         String napiId =  "NPI-"+ System.currentTimeMillis() +new Random().nextInt(99999999);
         String napi_foto = "lorem";
         String noreg = noRegis.getText();
         String nama = namaLengkap.getText();
         String jk = jenisKelamin.getValue();
-        String kamar = "kmr-090";
+        String kmr = (String) x.get(0);
         Boolean _jk = false;
         if (jk == "laki-laki"){
             _jk = true;
         }
 
-        System.out.println(noreg + " "+ nama + " "+ jk);
-
-        ConnectionClass connectionClass = new ConnectionClass();
-        Connection connection = connectionClass.getConnection();
-
         try{
-            String sql = "INSERT INTO data_napi (napi_id, napi_foto, napi_no_reg, napi_nama, napi_kamar, napi_sex) " +
-                    "VALUES(?,?,?,?,?,?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, napiId);
-            preparedStatement.setString(2, napi_foto);
-            preparedStatement.setString(3, noreg);
-            preparedStatement.setString(4, nama);
-            preparedStatement.setString(5, kamar);
-            preparedStatement.setBoolean(6, _jk);
+            String isNapi = ShareVariable.getNapiId();
+            System.out.println(kamar.getItems());
+            int rs = 0;
+            if (isNapi != null){
+                String sql = "UPDATE data_napi SET napi_no_reg = ?," +
+                        "napi_nama = ?," +
+                        "napi_kamar = ?," +
+                        "napi_sex = ? " +
+                        "WHERE napi_id = ?";
+                PreparedStatement statement = connection.prepareStatement(sql);
+                statement.setString(1, noreg);
+                statement.setString(2, nama);
+                statement.setString(3, kmr);
+                statement.setBoolean(4,_jk);
+                statement.setString(5, isNapi);
+                rs = statement.executeUpdate();
 
-            int rs = preparedStatement.executeUpdate();
+
+            }else{
+
+                String sql = "INSERT INTO data_napi (napi_id, napi_foto, napi_no_reg, napi_nama, napi_kamar, napi_sex) " +
+                        "VALUES(?,?,?,?,?,?)";
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, napiId);
+                preparedStatement.setString(2, napi_foto);
+                preparedStatement.setString(3, noreg);
+                preparedStatement.setString(4, nama);
+                preparedStatement.setString(5, kmr);
+                preparedStatement.setBoolean(6, _jk);
+
+                rs = preparedStatement.executeUpdate();
+
+            }
+
             if (rs > 0){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Berhasil");
@@ -86,6 +154,8 @@ public class DataNapiTambahController implements Initializable {
                 alert.showAndWait();
 
                 resetForm();
+//                DataNapiController napiC = new DataNapiController();
+//                napiC.generateTable();
             }else{
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Peringatan");
@@ -99,11 +169,23 @@ public class DataNapiTambahController implements Initializable {
             alert.showAndWait();
             e.printStackTrace();
         }
+
+
+
+
     }
+
+    void actionUpdate(String id ){
+
+    }
+
+    void actionSimpan(){
+
+    }
+
 
     private void comoBoxJK(){
         ObservableList<String> JK = FXCollections.observableArrayList("laki-laki", "perempuan");
-
         jenisKelamin.setItems(JK);
     }
 
@@ -115,13 +197,78 @@ public class DataNapiTambahController implements Initializable {
         noRegis.disableProperty();
 
         namaLengkap.setText("");
+
+
+
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        connectionClass = new ConnectionClass();
+        connection = connectionClass.getConnection();
+
         comoBoxJK();
         resetForm();
         //set default no register
+        createBlokList();
 
+        String isNapi = ShareVariable.getNapiId();
+        System.out.println(isNapi);
+        if (isNapi != null){
+            setEditForm(isNapi);
+        }
+
+    }
+
+    void createBlokList(){
+        ObservableList data = FXCollections.observableArrayList();
+
+        try{
+            String sql = "SELECT * FROM master_blok";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()){
+                ObservableList row = FXCollections.observableArrayList();
+                row.add(rs.getString("blok_master_id"));
+                row.add(rs.getString("blok_nama"));
+                blokData.add(row);
+
+                data.add(rs.getString("blok_nama"));
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        blokCombobox.setItems(data);
+    }
+
+    void setEditForm(String id){
+        try{
+            String sql = "SELECT * FROM data_napi " +
+                    "LEFT JOIN master_kamar ON data_napi.napi_kamar = master_kamar.master_kamar_id " +
+                    "LEFT JOIN master_blok ON master_kamar.master_blok_id = master_blok.blok_master_id " +
+                    "LEFT JOIN master_subagian ON data_napi.napi_booked_by = master_subagian.subagian_id " +
+                    "WHERE data_napi.napi_published = 1 AND data_napi.napi_id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, id);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()){
+                String sex = "perempuan";
+                if(rs.getBoolean("napi_sex")){
+                    sex = "laki-laki";
+                }
+                noRegis.setText(rs.getString("napi_no_reg"));
+                namaLengkap.setText(rs.getString("napi_nama"));
+                jenisKelamin.getSelectionModel().select(sex);
+                blokCombobox.getSelectionModel().select(rs.getString("blok_nama"));
+                kamar.getSelectionModel().select(rs.getString("nama_kamar"));
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
