@@ -7,20 +7,21 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane prefHeight="679.0" prefWidth="1018.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DataBlokKamarController">
    <children>
-      <TableView fx:id="tableBlok" layoutX="46.0" layoutY="74.0" prefHeight="431.0" prefWidth="358.0">
+      <TableView fx:id="tableBlok" layoutX="50.0" layoutY="74.0" prefHeight="431.0" prefWidth="364.0">
         <columns>
-          <TableColumn fx:id="no" prefWidth="145.0" text="No" />
-          <TableColumn fx:id="blok" prefWidth="212.0" text="Blok" />
+          <TableColumn fx:id="no" prefWidth="76.0" text="No" />
+          <TableColumn fx:id="blok" minWidth="0.0" prefWidth="177.0" text="Blok" />
+            <TableColumn fx:id="actionBlok" prefWidth="110.0" text="action" />
         </columns>
       </TableView>
       <TableView fx:id="tableKamar" layoutX="444.0" layoutY="74.0" prefHeight="431.0" prefWidth="390.0">
         <columns>
-          <TableColumn fx:id="kamarno" prefWidth="89.0" text="no" />
-          <TableColumn fx:id="kamarblok" prefWidth="123.0" text="blok" />
-            <TableColumn fx:id="kamar" prefWidth="107.0" text="kamar" />
+          <TableColumn fx:id="kamarno" prefWidth="68.0" text="no" />
+          <TableColumn fx:id="kamarblok" prefWidth="124.0" text="blok" />
+            <TableColumn fx:id="kamar" prefWidth="98.0" text="kamar" />
+            <TableColumn fx:id="action" prefWidth="104.0" text="action" />
         </columns>
       </TableView>
       <TextField fx:id="tambakBlokTxt" layoutX="46.0" layoutY="525.0" prefHeight="40.0" prefWidth="358.0" promptText="Tambah blok baru" />

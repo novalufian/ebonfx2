@@ -5,19 +5,26 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class DataPegawaiController  implements Initializable {
+
+    private static ConnectionClass connectionClass = new ConnectionClass();
+    private static Connection connection = connectionClass.getConnection();
 
     @FXML
     private TableView<ModelDataPegawai> tablePegawai;
@@ -38,10 +45,29 @@ public class DataPegawaiController  implements Initializable {
     private TableColumn<ModelDataPegawai, Button> action;
 
     @FXML
+    private TableColumn<ModelDataPegawai, Button> update;
+
+    @FXML
+    private TableColumn<ModelDataPegawai, Button> view;
+
+    @FXML
+    private TableColumn<ModelDataPegawai, Button> delete;
+
+    @FXML
     private Button btnTambah;
+
 
     @FXML
     void openFormTambah(ActionEvent event) {
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("views/data_pegawai_tambah.fxml"));
+            Parent parent = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(parent, 600, 500));
+            stage.show();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -54,14 +80,16 @@ public class DataPegawaiController  implements Initializable {
         nama.setCellValueFactory(new PropertyValueFactory<>("nama"));
         subagain.setCellValueFactory(new PropertyValueFactory<>("bagian"));
         sk.setCellValueFactory(new PropertyValueFactory<>("sk"));
-        action.setCellValueFactory(new PropertyValueFactory<>("action"));
+        view.setCellValueFactory(new PropertyValueFactory<>("view"));
+        update.setCellValueFactory(new PropertyValueFactory<>("update"));
+        delete.setCellValueFactory(new PropertyValueFactory<>("delete"));
+        createaBtnView("view");
+        createaBtnView("update");
+        createaBtnView("delete");
     }
 
     void iniTableData(){
         ObservableList<ModelDataPegawai> data = FXCollections.observableArrayList();
-
-        ConnectionClass connectionClass = new ConnectionClass();
-        Connection connection = connectionClass.getConnection();
 
         try{
             String sql = "SELECT * FROM data_pegawai " +
@@ -76,11 +104,15 @@ public class DataPegawaiController  implements Initializable {
                     jk = "perempuan";
                 }
                 data.add(new ModelDataPegawai(
+                        rs.getString("user_id"),
                         rs.getString("nip_pegawai"),
                         rs.getString("nama_pegawai"),
                         rs.getString("nama"),
                         jk,
-                        new Button("view")
+                        rs.getString("ttd_pegawai"),
+                        new Button("view"),
+                        new Button("update"),
+                        new Button("delete")
 
                 ));
             }
@@ -91,9 +123,138 @@ public class DataPegawaiController  implements Initializable {
         tablePegawai.setItems(data);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    void createaBtnView(String typebtn){
+        Callback<TableColumn<ModelDataPegawai, Button>, TableCell<ModelDataPegawai, Button>> cellFactory =
+                new Callback<TableColumn<ModelDataPegawai, Button>, TableCell<ModelDataPegawai, Button>>() {
+
+                    @Override
+                    public TableCell<ModelDataPegawai, Button> call(TableColumn<ModelDataPegawai, Button> param) {
+
+                        final TableCell<ModelDataPegawai, Button> cell = new TableCell<ModelDataPegawai, Button>(){
+
+                            final  Button btn = new Button(typebtn);
+
+                            @Override
+                            public void updateItem(Button item, boolean empty){
+                                super.updateItem(item, empty);
+
+                                if (empty){
+                                    setGraphic(null);
+                                    setText(null);
+                                }else{
+                                    btn.setOnAction(event -> {
+                                        ModelDataPegawai pegawai = getTableView().getItems().get(getIndex());
+                                        System.out.println(pegawai.getId());
+                                        initBtnAction(typebtn, pegawai.getId(), pegawai);
+                                        if (typebtn == "update"){}
+                                    });
+
+                                    setGraphic(btn);
+                                    setText(null);
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+
+        switch (typebtn){
+            case "update" :
+                view.setCellFactory(cellFactory);
+                break;
+            case "view" :
+                update.setCellFactory(cellFactory);
+                break;
+            case "delete":
+                delete.setCellFactory(cellFactory);
+                break;
+        }
+
+    }
+
+    void initBtnAction(String typebtn, String id, ModelDataPegawai obj){
+        switch (typebtn) {
+            case "update":
+                acationUpdate(id, obj);
+                break;
+            case "view":
+                actionView(id, obj);
+                break;
+            case "delete":
+                actionDelete(id);
+                break;
+        }
+    }
+
+    void acationUpdate(String id, ModelDataPegawai obj){
+
+        ShareVariable.setPegawaiId(id);
+        ShareVariable.setSharePegawai(obj);
+
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("views/data_pegawai_tambah.fxml"));
+            Parent parent = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(parent, 600, 500));
+            stage.show();
+        }catch (Exception e){
+
+        }
+
+        int rs = 0;
+        try {
+//            String sql = "UPDATE data_pegawai SET nip_pegawai = ?, subag_pegawai = ? jenis_kelamin_pegawai = ? ";
+        }catch (Exception e){
+
+        }
+
+    }
+
+    void actionView(String id, ModelDataPegawai obj){
+
+    }
+
+    void actionDelete(String id){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Konfirmasi");
+        alert.setHeaderText("Hapus data pegawai");
+        alert.setContentText("Apakah anda yakin menghapus data ini ?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            try{
+                String sql = "UPDATE data_pegawai SET pegawai_published = 0 WHERE user_id = ?";
+                PreparedStatement statement = connection.prepareStatement(sql);
+                statement.setString(1, id);
+
+                int rs = statement.executeUpdate();
+                if (rs > 0){
+                    reset();
+                    alert.close();
+                }else{
+                    alert.close();
+                }
+            }catch (Exception e){
+                Alert myalert = new Alert(Alert.AlertType.ERROR);
+                myalert.setTitle("connection error");
+                myalert.setContentText("coba periksa koneksi anda");
+                myalert.show();
+            }
+        }else{
+            alert.close();
+        }
+
+
+
+    }
+
+    public void reset(){
         initTable();
         iniTableData();
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+       reset();
     }
 }

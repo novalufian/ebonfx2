@@ -7,16 +7,20 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane prefHeight="653.0" prefWidth="914.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DataPegawaiController">
    <children>
       <TableView fx:id="tablePegawai" layoutX="38.0" layoutY="73.0" prefHeight="489.0" prefWidth="819.0">
         <columns>
-          <TableColumn fx:id="nip" prefWidth="169.0" text="NIP " />
-          <TableColumn fx:id="nama" prefWidth="213.0" text="Nama" />
-            <TableColumn fx:id="subagain" prefWidth="151.0" text="subagian" />
-            <TableColumn fx:id="sk" prefWidth="159.0" text="jenis kelamin" />
-            <TableColumn fx:id="action" prefWidth="122.0" text="action" />
+          <TableColumn fx:id="nip" prefWidth="128.0" text="NIP " />
+          <TableColumn fx:id="nama" prefWidth="171.0" text="Nama" />
+            <TableColumn fx:id="subagain" prefWidth="145.0" text="subagian" />
+            <TableColumn fx:id="sk" prefWidth="142.0" text="jenis kelamin" />
+            <TableColumn fx:id="action" prefWidth="228.0" text="action">
+               <columns>
+                  <TableColumn fx:id="update" prefWidth="75.0" text="update" />
+                  <TableColumn fx:id="view" prefWidth="75.0" text="view" />
+                  <TableColumn fx:id="delete" prefWidth="75.0" text="delete" />
+               </columns></TableColumn>
         </columns>
       </TableView>
       <Button fx:id="btnTambah" layoutX="657.0" layoutY="578.0" mnemonicParsing="false" onAction="#openFormTambah" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #505bda;" text="Tambah data pegawai" textFill="WHITE" />

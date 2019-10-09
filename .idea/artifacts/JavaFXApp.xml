@@ -4,11 +4,27 @@
     <properties id="javafx-properties">
       <options>
         <option name="appClass" value="sample.Main" />
+        <option name="description" value="" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="icons">
+          <JavaFxApplicationIcons>
+            <option name="linuxIcon" value="$PROJECT_DIR$/src/application/views/img/logo.png" />
+            <option name="macIcon" value="$PROJECT_DIR$/src/application/views/img/logo.png" />
+            <option name="windowsIcon" value="$PROJECT_DIR$/src/application/views/img/logo.png" />
+          </JavaFxApplicationIcons>
+        </option>
+        <option name="nativeBundle" value="all" />
+        <option name="title" value="Ebonpas pos 31" />
+        <option name="vendor" value="nova lufian" />
+        <option name="version" value="1" />
       </options>
     </properties>
     <root id="root">
       <element id="archive" name="JavaFXApp.jar">
         <element id="module-output" name="ebonpas-javafx" />
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+        </element>
       </element>
     </root>
   </artifact>

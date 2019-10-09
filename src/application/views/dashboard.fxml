@@ -4,7 +4,6 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -41,11 +40,6 @@
                </font>
             </Button>
             <Button fx:id="btn_riwayat_bon" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#goToRiwayatBon" prefHeight="40.0" prefWidth="250.0" style="-fx-background-color: #eeeeee; -fx-font-weight: 900;" text="Riwayat bon napi" textFill="#23374d">
-               <font>
-                  <Font name="Comfortaa Regular" size="14.0" />
-               </font>
-            </Button>
-            <Button fx:id="btn_user_client" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#goToUserClient" prefHeight="40.0" prefWidth="250.0" style="-fx-background-color: #eeeeee; -fx-font-weight: 900;" text="User client" textFill="#23374d">
                <font>
                   <Font name="Comfortaa Regular" size="14.0" />
                </font>
@@ -88,15 +82,6 @@
          </children>
       </VBox>
    </left>
-   <top>
-      <HBox alignment="TOP_RIGHT" prefHeight="20.0" prefWidth="200.0" style="-fx-background-color: eeeeee;" BorderPane.alignment="CENTER">
-         <children>
-            <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" textAlignment="RIGHT" />
-            <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" textAlignment="RIGHT" />
-            <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" textAlignment="RIGHT" />
-         </children>
-      </HBox>
-   </top>
    <center>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" BorderPane.alignment="CENTER" />
    </center>

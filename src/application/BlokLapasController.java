@@ -6,11 +6,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -44,7 +42,7 @@ public class BlokLapasController implements Initializable {
     private TableColumn<ModelBlokLapasNapi, String> status;
 
     @FXML
-    private TableColumn<ModelBlokLapasNapi, String> action;
+    private TableColumn<ModelBlokLapasNapi, Button> action;
 
     @FXML
     private ComboBox<String> cbPilihBlok;
@@ -68,7 +66,6 @@ public class BlokLapasController implements Initializable {
         String y = (String) x.get(0);
 
         GlobalKamarid = y;
-        System.out.println(GlobalKamarid);
 
         generateTable();
     }
@@ -149,6 +146,7 @@ public class BlokLapasController implements Initializable {
         kamar.setCellValueFactory(new PropertyValueFactory<>("kamar"));
         status.setCellValueFactory(new PropertyValueFactory<>("status"));
         action.setCellValueFactory(new PropertyValueFactory<>("book"));
+        createaBtnView("book napi");
     }
 
     void iniTableData(){
@@ -156,8 +154,6 @@ public class BlokLapasController implements Initializable {
         if (GlobalKamarid != ""){
             addSql = "AND data_napi.napi_kamar = '" + GlobalKamarid+"'";
         }
-
-        System.out.println(addSql);
 
         ObservableList<ModelBlokLapasNapi> data = FXCollections.observableArrayList();
 
@@ -168,12 +164,10 @@ public class BlokLapasController implements Initializable {
             String sql = "SELECT * FROM data_napi " +
                     "LEFT JOIN master_kamar ON data_napi.napi_kamar = master_kamar.master_kamar_id " +
                     "LEFT JOIN master_blok ON master_kamar.master_blok_id = master_blok.blok_master_id " +
-                    "WHERE data_napi.napi_published = 1 "+
+                    "WHERE data_napi.napi_published = 1 AND data_napi.napi_booked = 0"+
                     addSql;
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet rs =  preparedStatement.executeQuery();
-
-            System.out.println("sql "+sql);
 
             while (rs.next()){
                 String st = "unbooked";
@@ -196,6 +190,119 @@ public class BlokLapasController implements Initializable {
 
         tableBlokLapas.setItems(data);
     }
+
+    void createaBtnView(String typebtn){
+        Callback<TableColumn<ModelBlokLapasNapi, Button>, TableCell<ModelBlokLapasNapi, Button>> cellFactory =
+                new Callback<TableColumn<ModelBlokLapasNapi, Button>, TableCell<ModelBlokLapasNapi, Button>>() {
+
+                    @Override
+                    public TableCell<ModelBlokLapasNapi, Button> call(TableColumn<ModelBlokLapasNapi, Button> param) {
+
+                        final TableCell<ModelBlokLapasNapi, Button> cell = new TableCell<ModelBlokLapasNapi, Button>(){
+
+                            final  Button btn = new Button(typebtn);
+
+                            @Override
+                            public void updateItem(Button item, boolean empty){
+                                super.updateItem(item, empty);
+
+                                if (empty){
+                                    setGraphic(null);
+                                    setText(null);
+                                }else{
+                                    btn.setOnAction(event -> {
+                                        ModelBlokLapasNapi napi = getTableView().getItems().get(getIndex());
+                                        bookNapi(napi.getId(), napi);
+                                    });
+
+                                    setGraphic(btn);
+                                    setText(null);
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+
+        action.setCellFactory(cellFactory);
+    }
+
+    void bookNapi(String id, ModelBlokLapasNapi obj){
+        try {
+            String sql = "SELECT * FROM data_napi WHERE napi_id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, id);
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()){
+
+                if(rs.getBoolean("napi_booked")){
+                    if (rs.getString("napi_booked_by").equals(ShareVariable.getUserid())){
+                        doBookNapi(id, false, obj);
+                    }else{
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Peringatan");
+                        alert.setContentText("maaf napi ini sudah di bon oleh user lainnya");
+                        alert.showAndWait();
+                    }
+
+                }else{
+                    doBookNapi(id, true, obj);
+                }
+            }else{
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Peringatan");
+                alert.setContentText("Terjadi kesalahan koneksi");
+                alert.showAndWait();
+            }
+        }catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("mohon periksa koneksi anda");
+            alert.showAndWait();
+        }
+    }
+
+    void doBookNapi(String id,Boolean type, ModelBlokLapasNapi obj){
+        try {
+            String napiid = ShareVariable.getUserid();
+            if (!type){
+                napiid = "";
+            }
+            String sql = "UPDATE data_napi SET napi_booked = ? , napi_booked_by = ? WHERE napi_id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setBoolean(1, type);
+            statement.setString(2, napiid);
+            statement.setString(3, id);
+            int rs = statement.executeUpdate();
+
+            if (rs > 0 ){
+                generateTable();
+
+                ObservableList data = FXCollections.observableArrayList();
+                data.add(new ModelBlokLapasNapi(
+                        obj.getId(),
+                        obj.getNama(),
+                        obj.getBlok(),
+                        obj.getKamar(),
+                        obj.getStatus(),
+                        new Button("oke")
+                ));
+                ShareVariable.setCartBookingNapi(data);
+            }else{
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Peringatan");
+                alert.setContentText("Terjadi kesalahan koneksi, coba lagi");
+                alert.showAndWait();
+            }
+        }catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("mohon periksa koneksi anda");
+            alert.showAndWait();
+        }
+    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

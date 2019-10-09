@@ -27,8 +27,6 @@ public class dashboardController implements Initializable {
     @FXML
     private Button btn_riwayat_bon;
 
-    @FXML
-    private Button btn_user_client;
 
     @FXML
     private Button btn_user_admin;
@@ -66,11 +64,6 @@ public class dashboardController implements Initializable {
     @FXML
     void goTOUserAdmin(ActionEvent event) {
         load_ui("views/user_admin.fxml");
-    }
-
-    @FXML
-    void goToUserClient(ActionEvent event) {
-        load_ui("views/user_client.fxml");
     }
 
     @FXML
@@ -115,6 +108,8 @@ public class dashboardController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        ShareVariable.setMainDashboardBoderpane(main_border_pane);
         load_ui("views/blok_lapas.fxml");
+
     }
 }

@@ -100,7 +100,7 @@ public class BonRiwayatController implements Initializable {
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
 
-            if (rs.next()){
+            while (rs.next()){
                 dataRiwayatBon.add(new ModelBon(
                         rs.getString("bon_id"),
                         rs.getString("bon_keterangan"),
@@ -117,8 +117,6 @@ public class BonRiwayatController implements Initializable {
             e.printStackTrace();
 
         }
-
         tableBonRiwayat.setItems(dataRiwayatBon);
-
     }
 }

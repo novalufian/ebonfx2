@@ -7,14 +7,14 @@ public class ConnectionClass {
 
     private String uname = "root";
     private String pass = "leon1108";
-    private String host = "localhost/ebonpas";
+    private String host = "jdbc:mysql://localhost:3306/ebonpas";
     public Connection connection;
 
     public Connection getConnection(){
 
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://"+ host ,uname, pass);
+            connection = DriverManager.getConnection(host ,uname, pass);
         }catch (Exception e){
             e.printStackTrace();
         }

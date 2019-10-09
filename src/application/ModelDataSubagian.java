@@ -4,14 +4,25 @@ import javafx.scene.control.Button;
 
 public class ModelDataSubagian {
     int no;
-    String nama, warna;
+    String id;
+    String nama;
+    String warna;
     Button view;
 
-    public ModelDataSubagian(int no, String nama, String warna, Button view) {
+    public ModelDataSubagian(int no, String id, String nama, String warna, Button view) {
         this.no = no;
+        this.id = id;
         this.nama = nama;
         this.warna = warna;
         this.view = view;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public int getNo() {

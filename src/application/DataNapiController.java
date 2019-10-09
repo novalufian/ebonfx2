@@ -103,6 +103,7 @@ public class DataNapiController implements Initializable {
             PreparedStatement preparedStatement = connection.prepareStatement(selectData);
             ResultSet rs = preparedStatement.executeQuery();
 
+            int x = 1;
             while (rs.next()){
                 data_napi.add(new ModelDataNapi(
                         rs.getString("napi_id"),
@@ -134,7 +135,6 @@ public class DataNapiController implements Initializable {
 
         String uid = ShareVariable.getUserid();
 
-        System.out.println("load "+ uid);
     }
 
     void createaBtnView(String typebtn){
@@ -158,7 +158,6 @@ public class DataNapiController implements Initializable {
                                 }else{
                                     btn.setOnAction(event -> {
                                         ModelDataNapi napi = getTableView().getItems().get(getIndex());
-                                        System.out.println(napi.getNapiid());
                                         initBtnAction(typebtn, napi.getNapiid());
                                         if (typebtn == "update"){}
                                     });

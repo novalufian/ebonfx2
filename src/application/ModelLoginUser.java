@@ -2,18 +2,27 @@ package application;
 
 import javafx.scene.control.Button;
 
-public class ModelDataPegawai {
+public class ModelLoginUser {
 
-    public ModelDataPegawai(String id, String nip, String nama, String bagian, String sk, String ttd, Button view, Button update, Button delete) {
+    public ModelLoginUser(int no, String id, String nip, String nama, String username, String password, String roleuser, Button view, Button update, Button delete) {
+        this.no = no;
         this.id = id;
         this.nip = nip;
         this.nama = nama;
-        this.bagian = bagian;
-        this.sk = sk;
-        this.ttd = ttd;
+        this.username = username;
+        this.password = password;
+        this.roleuser = roleuser;
         this.view = view;
         this.update = update;
         this.delete = delete;
+    }
+
+    public int getNo() {
+        return no;
+    }
+
+    public void setNo(int no) {
+        this.no = no;
     }
 
     public String getId() {
@@ -40,20 +49,28 @@ public class ModelDataPegawai {
         this.nama = nama;
     }
 
-    public String getBagian() {
-        return bagian;
+    public String getUsername() {
+        return username;
     }
 
-    public void setBagian(String bagian) {
-        this.bagian = bagian;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getSk() {
-        return sk;
+    public String getPassword() {
+        return password;
     }
 
-    public void setSk(String sk) {
-        this.sk = sk;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRoleuser() {
+        return roleuser;
+    }
+
+    public void setRoleuser(String roleuser) {
+        this.roleuser = roleuser;
     }
 
     public Button getView() {
@@ -80,16 +97,9 @@ public class ModelDataPegawai {
         this.delete = delete;
     }
 
-    public String getTtd() {
-        return ttd;
-    }
-
-    public void setTtd(String ttd) {
-        this.ttd = ttd;
-    }
-
-
-    String id, nip, nama, bagian, sk, ttd;
+    int no;
+    String id,nip, nama, username, password, roleuser;
     Button view, update, delete;
+
 
 }

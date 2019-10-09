@@ -1,12 +1,13 @@
 package application;
 
-public class ModelBlok {
-    Integer no;
-    String blok;
+import javafx.scene.control.Button;
 
-    public ModelBlok(Integer no, String blok) {
+public class ModelBlok {
+    public ModelBlok(Integer no, String id, String blok, Button action) {
         this.no = no;
+        this.id = id;
         this.blok = blok;
+        this.action = action;
     }
 
     public Integer getNo() {
@@ -17,6 +18,14 @@ public class ModelBlok {
         this.no = no;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getBlok() {
         return blok;
     }
@@ -24,4 +33,17 @@ public class ModelBlok {
     public void setBlok(String blok) {
         this.blok = blok;
     }
+
+    public Button getAction() {
+        return action;
+    }
+
+    public void setAction(Button action) {
+        this.action = action;
+    }
+
+    Integer no;
+    String id, blok;
+    Button action;
+
 }

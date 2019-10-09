@@ -5,11 +5,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -152,10 +155,7 @@ public class DataNapiTambahController implements Initializable {
                 alert.setTitle("Berhasil");
                 alert.setHeaderText("Selamat napi sudah berhasil ditambahkan");
                 alert.showAndWait();
-
                 resetForm();
-//                DataNapiController napiC = new DataNapiController();
-//                napiC.generateTable();
             }else{
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Peringatan");
@@ -197,6 +197,14 @@ public class DataNapiTambahController implements Initializable {
         noRegis.disableProperty();
 
         namaLengkap.setText("");
+
+        try{
+            BorderPane curentBorderpane = ShareVariable.getMainDashboardBoderpane();
+            Parent stage_area = FXMLLoader.load(getClass().getResource("views/data_napi.fxml"));
+            curentBorderpane.setCenter(stage_area);
+        }catch(Exception e){
+
+        }
 
 
 
