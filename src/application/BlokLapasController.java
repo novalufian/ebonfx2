@@ -164,7 +164,7 @@ public class BlokLapasController implements Initializable {
             String sql = "SELECT * FROM data_napi " +
                     "LEFT JOIN master_kamar ON data_napi.napi_kamar = master_kamar.master_kamar_id " +
                     "LEFT JOIN master_blok ON master_kamar.master_blok_id = master_blok.blok_master_id " +
-                    "WHERE data_napi.napi_published = 1 AND data_napi.napi_booked = 0"+
+                    "WHERE data_napi.napi_published = 1 AND data_napi.napi_booked = 0 "+
                     addSql;
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet rs =  preparedStatement.executeQuery();

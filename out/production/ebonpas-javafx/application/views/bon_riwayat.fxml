@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane onKeyPressed="#doSearch" prefHeight="700.0" prefWidth="916.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.BonRiwayatController">
+<AnchorPane onKeyPressed="#doSearch" prefHeight="700.0" prefWidth="916.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="application.BonRiwayatController">
    <children>
       <TableView fx:id="tableBonRiwayat" layoutX="32.0" layoutY="141.0" prefHeight="476.0" prefWidth="857.0">
         <columns>

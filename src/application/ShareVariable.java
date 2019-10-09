@@ -8,6 +8,7 @@ public class ShareVariable {
     public static String userid = null;
     public static String napiId = null;
     public static String pegawaiId = null;
+    public static Integer userRole = 0;
     public static BorderPane mainDashboardBoderpane = null;
     public static ObservableList<ModelBlokLapasNapi> cartBookingNapi = FXCollections.observableArrayList();
 
@@ -26,7 +27,8 @@ public class ShareVariable {
     public static void removeAllCartBookingNapi(ObservableList<ModelBlokLapasNapi> cartBookingNapi) {
         ShareVariable.cartBookingNapi.removeAll(cartBookingNapi);
     }
-
+    public static Integer getUserRole() {return userRole;}
+    public static void setUserRole(Integer userRole) {ShareVariable.userRole = userRole;}
     public static String getLoginid() {
         return loginid;
     }

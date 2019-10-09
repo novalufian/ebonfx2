@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="main_border_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.dashboardController">
+<BorderPane fx:id="main_border_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="application.dashboardController">
    <left>
       <VBox prefHeight="700.0" prefWidth="250.0" style="-fx-background-color: eeeeee; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10,0, 0, 0);" BorderPane.alignment="CENTER">
          <children>

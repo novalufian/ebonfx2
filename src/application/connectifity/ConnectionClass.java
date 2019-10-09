@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 
 public class ConnectionClass {
 
-    private String uname = "root";
-    private String pass = "leon1108";
-    private String host = "jdbc:mysql://localhost:3306/ebonpas";
+    private String uname = "ssFGUbaB52";
+    private String pass = "BX8sPhSjTS";
+    private String host = "jdbc:mysql://remotemysql.com:3306/ssFGUbaB52";
     public Connection connection;
 
     public Connection getConnection(){

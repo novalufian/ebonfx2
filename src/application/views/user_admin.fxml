@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.UserAdminController">
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="application.UserAdminController">
    <children>
       <TextField fx:id="searchUser" layoutX="517.0" layoutY="87.0" onKeyPressed="#liveSearchUser" prefHeight="40.0" prefWidth="300.0" promptText="ketek disini.." />
       <Button fx:id="abtnSearch" layoutX="817.0" layoutY="87.0" mnemonicParsing="false" onAction="#doSearchUser" prefHeight="40.0" prefWidth="94.0" text="search" />

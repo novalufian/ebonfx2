@@ -110,6 +110,19 @@ public class dashboardController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         ShareVariable.setMainDashboardBoderpane(main_border_pane);
         load_ui("views/blok_lapas.fxml");
-
+        setButton();
     }
+
+    private void setButton(){
+        Integer roleuser = ShareVariable.getUserRole();
+        if(roleuser == 0 ){
+            btn_user_admin.setVisible(false);
+            btn_data_napi.setVisible(false);
+            btn_data_pegawai.setVisible(false);
+            btn_data_subagian.setVisible(false);
+            btn_blok_kamar.setVisible(false);
+        }
+    }
+
+    public void onClose(){}
 }
