@@ -19,10 +19,10 @@
             </Text>
          </children>
       </Pane>
-      <Text layoutX="52.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nama lengkap" />
+      <Text layoutX="50.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nama lengkap" />
       <TextField fx:id="noRegis" layoutX="213.0" layoutY="106.0" prefHeight="40.0" prefWidth="300.0" promptText="No Registrasi" />
       <TextField fx:id="namaLengkap" layoutX="213.0" layoutY="155.0" prefHeight="40.0" prefWidth="300.0" promptText="Nama lengkap" />
-      <Text layoutX="52.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Registrasi" />
+      <Text layoutX="51.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Registrasi" />
       <Text layoutX="51.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jenis Kelamin" />
       <ComboBox fx:id="jenisKelamin" layoutX="214.0" layoutY="205.0" prefHeight="40.0" prefWidth="300.0" promptText="Jenis kelamin" />
       <ComboBox fx:id="blokCombobox" layoutX="214.0" layoutY="255.0" onAction="#actionBlok" prefHeight="40.0" prefWidth="300.0" promptText="Blok" />

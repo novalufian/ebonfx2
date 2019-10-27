@@ -13,7 +13,7 @@
             <option name="windowsIcon" value="$PROJECT_DIR$/src/application/views/img/logo.png" />
           </JavaFxApplicationIcons>
         </option>
-        <option name="nativeBundle" value="all" />
+        <option name="nativeBundle" value="exe" />
         <option name="title" value="Ebonpas pos 31" />
         <option name="vendor" value="nova lufian" />
         <option name="version" value="1" />

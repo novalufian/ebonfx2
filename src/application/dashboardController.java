@@ -103,7 +103,6 @@ public class dashboardController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override

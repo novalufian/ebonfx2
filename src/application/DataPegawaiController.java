@@ -3,7 +3,10 @@ package application;
 import application.connectifity.ConnectionClass;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,8 +15,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -55,6 +60,25 @@ public class DataPegawaiController  implements Initializable {
 
     @FXML
     private Button btnTambah;
+
+    @FXML
+    private Button kembali;
+
+    @FXML
+    private TextField search;
+
+    @FXML
+    void doKembali(ActionEvent event) {
+        try {
+            Stage curentStage = Main.getStage();
+            Parent dashboard = FXMLLoader.load(getClass().getResource(ShareVariable.getSharehome()));
+            curentStage.setScene(new Scene(dashboard));
+            curentStage.show();
+//            curentStage.setMaximized(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     @FXML
@@ -121,6 +145,32 @@ public class DataPegawaiController  implements Initializable {
         }
 
         tablePegawai.setItems(data);
+
+        FilteredList<ModelDataPegawai> filteredList = new FilteredList<>(data, b -> true);
+        search.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredList.setPredicate(model_barang -> {
+                if (newValue == null || newValue.isEmpty()){
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (model_barang.getNama().indexOf(lowerCaseFilter) != -1){
+                    return true;
+                }else if(model_barang.getNip().toLowerCase().indexOf(lowerCaseFilter) != -1 ){
+                    return true;
+                }else if(model_barang.getBagian().toLowerCase().indexOf(lowerCaseFilter) != -1){
+                    return true;
+                }else{
+                    return false;
+                }
+            });
+        });
+
+        SortedList<ModelDataPegawai> sortedList = new SortedList<>(filteredList);
+        sortedList.comparatorProperty().bind(tablePegawai.comparatorProperty());
+
+        tablePegawai.setItems(sortedList);
     }
 
     void createaBtnView(String typebtn){
@@ -144,9 +194,8 @@ public class DataPegawaiController  implements Initializable {
                                 }else{
                                     btn.setOnAction(event -> {
                                         ModelDataPegawai pegawai = getTableView().getItems().get(getIndex());
-                                        System.out.println(pegawai.getId());
+                                        System.out.println(pegawai);
                                         initBtnAction(typebtn, pegawai.getId(), pegawai);
-                                        if (typebtn == "update"){}
                                     });
 
                                     setGraphic(btn);
@@ -197,6 +246,15 @@ public class DataPegawaiController  implements Initializable {
             Stage stage = new Stage();
             stage.setScene(new Scene(parent, 600, 500));
             stage.show();
+
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent event) {
+                    ShareVariable.setPegawaiId(null);
+                    ShareVariable.setSharePegawai(null);
+                    ShareVariable.setNapiId(null);
+                }
+            });
         }catch (Exception e){
 
         }

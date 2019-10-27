@@ -5,12 +5,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -47,6 +52,22 @@ public class DataSubagianController implements Initializable {
 
     @FXML
     private Button reset;
+
+    @FXML
+    private Button kembali;
+
+    @FXML
+    void doKembali(ActionEvent event) {
+        try {
+            Stage curentStage = Main.getStage();
+            Parent dashboard = FXMLLoader.load(getClass().getResource(ShareVariable.getSharehome()));
+            curentStage.setScene(new Scene(dashboard));
+            curentStage.show();
+//            curentStage.setMaximized(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     void pilihWarna(ActionEvent event) {

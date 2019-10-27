@@ -5,13 +5,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.Date;
@@ -79,6 +84,22 @@ public class BonNapiController implements Initializable {
     private Button btnBatalkanBon;
 
     @FXML
+    private Button kembali;
+
+    @FXML
+    void doKembali(ActionEvent event) {
+        try {
+            Stage curentStage = Main.getStage();
+            Parent dashboard = FXMLLoader.load(getClass().getResource(ShareVariable.getSharehome()));
+            curentStage.setScene(new Scene(dashboard));
+            curentStage.show();
+//            curentStage.setMaximized(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     void batalkanBon(ActionEvent event) {
         clearCartBon();
     }
@@ -115,6 +136,9 @@ public class BonNapiController implements Initializable {
     void bookNapi(ActionEvent event) {
         String bonid = "BON-"+ System.currentTimeMillis() +new Random().nextInt(99999999);
         try {
+
+            connection.setAutoCommit(false);
+
             String sql = "INSERT INTO bon (bon_id, bon_user, bon_keterangan, bon_status, bon_jam_masuk, bon_jam_keluar, bon_subagian)" +
                     "VALUES (?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -135,6 +159,10 @@ public class BonNapiController implements Initializable {
                 alert.setHeaderText("Data gagal ditambahkan");
                 alert.showAndWait();
             }
+
+            connection.commit();
+            connection.setAutoCommit(true);
+
         }catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");

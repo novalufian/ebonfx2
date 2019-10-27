@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="mainAnchorpane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.HomeController">
+   <children>
+      <BorderPane layoutX="-14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #090057;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <left>
+            <Pane prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #090057;" BorderPane.alignment="CENTER" />
+         </left>
+         <center>
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox prefHeight="700.0" prefWidth="350.0">
+                     <children>
+                        <Pane prefHeight="168.0" prefWidth="350.0">
+                           <children>
+                              <Text fill="WHITE" layoutX="5.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: 900;" text="Selamat datang " wrappingWidth="340.328125">
+                                 <font>
+                                    <Font size="36.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="usernameText" fill="#64ccda" layoutX="7.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="username!" wrappingWidth="320.328125">
+                                 <font>
+                                    <Font size="36.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </Pane>
+                        <Pane prefHeight="451.0" prefWidth="350.0">
+                           <children>
+                              <Text fill="#dadada" layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Selamat datang di aplikasi ebon pas pos 31, anda bisa melakukan bon napi secara online dan realtime ( secara langsung ) tanpa harus ke pos 31." wrappingWidth="230.9638671875" />
+                              <ImageView fitHeight="108.0" fitWidth="105.0" layoutX="27.0" layoutY="250.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@assets/logo-pengayoman-png-5.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </Pane>
+                     </children>
+                  </VBox>
+                  <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="647.0" HBox.hgrow="ALWAYS">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="129.0" prefWidth="0.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="129.0" percentWidth="0.0" prefWidth="0.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="129.0" percentWidth="0.0" prefWidth="0.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="129.0" percentWidth="0.0" prefWidth="0.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="129.0" prefWidth="0.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="139.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="248.0" minHeight="10.0" prefHeight="147.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="215.0" minHeight="12.0" prefHeight="117.0" valignment="CENTER" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="213.0" minHeight="12.0" prefHeight="118.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="251.0" minHeight="12.0" prefHeight="113.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="147.0" minHeight="12.0" prefHeight="86.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="108.0" minHeight="10.0" prefHeight="83.0" valignment="TOP" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Button fx:id="blokLapas" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#dpBlokLapas" prefHeight="250.0" prefWidth="301.0" style="-fx-background-color: linear-gradient(#ffffff, #eeeeee);" text="  Blok lapas" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets bottom="5.0" right="5.0" />
+                           </GridPane.margin>
+                           <graphic>
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@assets/black/001-home.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font name="Montserrat Medium" size="18.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="OPEN_HAND" />
+                           </cursor>
+                        </Button>
+                        <Button fx:id="bonNapi" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#doBonNapi" prefHeight="250.0" prefWidth="274.0" style="-fx-background-color: linear-gradient(#00bd56, #009342);" text=" Bon napi" textFill="WHITE" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets bottom="5.0" right="5.0" />
+                           </GridPane.margin>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="OPEN_HAND" />
+                           </cursor>
+                           <graphic>
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@assets/white/021-contacts.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="riwayat" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#doRiwayat" prefHeight="250.0" prefWidth="253.0" style="-fx-background-color: linear-gradient(#00bd56, #009342);" text=" Riwayat bon" textFill="WHITE" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="OPEN_HAND" />
+                           </cursor>
+                           <opaqueInsets>
+                              <Insets right="5.0" />
+                           </opaqueInsets>
+                           <GridPane.margin>
+                              <Insets bottom="5.0" right="5.0" />
+                           </GridPane.margin>
+                           <graphic>
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@assets/white/013-bookmarks.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="logout" maxWidth="-Infinity" mnemonicParsing="false" onAction="#doLogout" prefHeight="40.0" prefWidth="250.0" style="-fx-background-color: #f45905; -fx-font-weight: 900;" text="Log out" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="6">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <effect>
+                              <Blend />
+                           </effect>
+                           <cursor>
+                              <Cursor fx:constant="OPEN_HAND" />
+                           </cursor>
+                           <GridPane.margin>
+                              <Insets right="5.0" />
+                           </GridPane.margin>
+                        </Button>
+                        <Button fx:id="notif" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#donNotif" prefHeight="90.0" prefWidth="402.0" style="-fx-background-color: linear-gradient(#1089ff,#0780f2);" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Montserrat Medium" size="18.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="OPEN_HAND" />
+                           </cursor>
+                           <graphic>
+                              <GridPane alignment="CENTER_RIGHT">
+                                 <columnConstraints>
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="208.0" minWidth="10.0" prefWidth="208.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="112.0" minWidth="10.0" prefWidth="34.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints maxHeight="23.0" minHeight="7.0" prefHeight="17.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="58.0" minHeight="10.0" prefHeight="28.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="40.0" minHeight="8.0" prefHeight="18.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="18.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <ImageView fitHeight="40.0" fitWidth="40.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" GridPane.rowSpan="2">
+                                       <image>
+                                          <Image url="@assets/white/023-chat-1.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Notification" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fill="#d6ff00" strokeType="OUTSIDE" strokeWidth="0.0" text="no message" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                 </children>
+                              </GridPane>
+                           </graphic>
+                           <GridPane.margin>
+                              <Insets right="5.0" />
+                           </GridPane.margin>
+                        </Button>
+                     </children>
+                  </GridPane>
+               </children>
+            </HBox>
+         </center>
+         <right>
+            <Pane prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #090057;" BorderPane.alignment="CENTER" />
+         </right>
+      </BorderPane>
+   </children>
+</AnchorPane>

@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -60,6 +61,10 @@ public class DataNapiTambahController implements Initializable {
 
     @FXML
     void actionBlok(ActionEvent event) {
+        doSelectBlok();
+    }
+
+    void doSelectBlok(){
         listKamar = null;
         int index =  blokCombobox.getSelectionModel().getSelectedIndex();
         ObservableList x = (ObservableList) blokData.get(index);
@@ -102,8 +107,8 @@ public class DataNapiTambahController implements Initializable {
 
     @FXML
     void simpanData(ActionEvent event) {
-        ObservableList x = (ObservableList) listKamar.get(kamar.getSelectionModel().getSelectedIndex());;
-
+        System.out.printf(String.valueOf(kamar.getSelectionModel().getSelectedIndex()));
+        ObservableList x = (ObservableList) listKamar.get(kamar.getSelectionModel().getSelectedIndex());
         String napiId =  "NPI-"+ System.currentTimeMillis() +new Random().nextInt(99999999);
         String napi_foto = "lorem";
         String noreg = noRegis.getText();
@@ -156,6 +161,9 @@ public class DataNapiTambahController implements Initializable {
                 alert.setHeaderText("Selamat napi sudah berhasil ditambahkan");
                 alert.showAndWait();
                 resetForm();
+
+                Stage stage = (Stage) blokCombobox.getScene().getWindow();
+                stage.close();
             }else{
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Peringatan");
@@ -226,6 +234,8 @@ public class DataNapiTambahController implements Initializable {
             setEditForm(isNapi);
         }
 
+        ShareVariable.setNapiId(null);
+
     }
 
     void createBlokList(){
@@ -253,6 +263,7 @@ public class DataNapiTambahController implements Initializable {
     }
 
     void setEditForm(String id){
+
         try{
             String sql = "SELECT * FROM data_napi " +
                     "LEFT JOIN master_kamar ON data_napi.napi_kamar = master_kamar.master_kamar_id " +
@@ -264,15 +275,18 @@ public class DataNapiTambahController implements Initializable {
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()){
-                String sex = "perempuan";
+                int sex = 0;
                 if(rs.getBoolean("napi_sex")){
-                    sex = "laki-laki";
+                    sex = 1;
                 }
                 noRegis.setText(rs.getString("napi_no_reg"));
                 namaLengkap.setText(rs.getString("napi_nama"));
                 jenisKelamin.getSelectionModel().select(sex);
                 blokCombobox.getSelectionModel().select(rs.getString("blok_nama"));
+                doSelectBlok();
                 kamar.getSelectionModel().select(rs.getString("nama_kamar"));
+
+
 
             }
         }catch (Exception e){

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DataBlokKamarController">
+   <children>
+      <BorderPane layoutX="-14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #090057;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <left>
+            <Pane prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #090057;" BorderPane.alignment="CENTER" />
+         </left>
+         <center>
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+               <padding>
+                  <Insets top="20.0" />
+               </padding>
+               <children>
+                  <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="400.0">
+                     <children>
+                        <TableView fx:id="tableBlok" prefHeight="431.0" prefWidth="364.0">
+                           <columns>
+                              <TableColumn fx:id="no" prefWidth="76.0" text="No" />
+                              <TableColumn fx:id="blok" minWidth="0.0" prefWidth="177.0" text="Blok" />
+                              <TableColumn fx:id="actionBlok" prefWidth="110.0" text="action" />
+                           </columns>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </TableView>
+                        <TextField fx:id="tambakBlokTxt" prefHeight="40.0" prefWidth="358.0" promptText="Tambah blok baru">
+                           <VBox.margin>
+                              <Insets top="30.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <Button fx:id="btnTambahBlok" mnemonicParsing="false" onAction="#tambahBlokBaru" prefHeight="40.0" prefWidth="133.0" text="Tambah blok">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                     <HBox.margin>
+                        <Insets right="200.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="400.0">
+                     <children>
+                        <TableView fx:id="tableKamar" prefHeight="431.0" prefWidth="0.0">
+                           <columns>
+                              <TableColumn fx:id="kamarno" prefWidth="68.0" text="no" />
+                              <TableColumn fx:id="kamarblok" prefWidth="124.0" text="blok" />
+                              <TableColumn fx:id="kamar" prefWidth="98.0" text="kamar" />
+                              <TableColumn fx:id="action" prefWidth="104.0" text="action" />
+                           </columns>
+                        </TableView>
+                        <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" prefHeight="60.0" prefWidth="200.0">
+                           <children>
+                              <ComboBox fx:id="listBlok" prefHeight="40.0" prefWidth="194.0" promptText="Blok" />
+                              <TextField fx:id="tambahkamarTxt" prefHeight="40.0" prefWidth="220.0" promptText="Tambah kamar" />
+                           </children>
+                           <opaqueInsets>
+                              <Insets top="20.0" />
+                           </opaqueInsets>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <Button fx:id="btnTambahKamar" mnemonicParsing="false" onAction="#ambahKamar" prefHeight="40.0" prefWidth="162.0" text="Tambah kamar" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </center>
+         <right>
+            <Pane prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #090057;" BorderPane.alignment="CENTER" />
+         </right>
+         <top>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: 900;" text="Blok " wrappingWidth="104.328125">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Text>
+                        <Text fill="#64ccda" strokeType="OUTSIDE" strokeWidth="0.0" text="&amp; kamar" wrappingWidth="174.328125">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+                  <Button fx:id="kembali" contentDisplay="RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#doKembali" prefHeight="40.0" prefWidth="188.0" style="-fx-background-color: linear-gradient(#00bd56, #009342);" text="Kembali  " textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <opaqueInsets>
+                        <Insets right="5.0" top="5.0" />
+                     </opaqueInsets>
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@assets/white/010-play.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <padding>
+                        <Insets right="5.0" top="5.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets right="100.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <BorderPane.margin>
+                  <Insets left="100.0" />
+               </BorderPane.margin>
+            </HBox>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>

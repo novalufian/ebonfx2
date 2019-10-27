@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class ModelBon {
 
-    public ModelBon(String bonid, String keterangan, String status, String bonSubagian, String jam_masuk, String jam_keluar, String createdAt, Button view) {
+    public ModelBon(String bonid, String keterangan, String status, String bonSubagian, String jam_masuk, String jam_keluar, String createdAt, Button view, Button proses) {
         this.bonid = bonid;
         this.keterangan = keterangan;
         this.status = status;
@@ -15,6 +15,7 @@ public class ModelBon {
         this.jam_keluar = jam_keluar;
         this.createdAt = createdAt;
         this.view = view;
+        this.proses = proses;
     }
 
     public String getBonid() {
@@ -81,6 +82,14 @@ public class ModelBon {
         this.view = view;
     }
 
+    public Button getProses() {
+        return proses;
+    }
+
+    public void setProses(Button proses) {
+        this.proses = proses;
+    }
+
     String bonid, keterangan, status, bonSubagian, jam_masuk, jam_keluar, createdAt;
-    Button view;
+    Button view, proses;
 }

@@ -1,23 +1,29 @@
 package application;
 
 import application.connectifity.ConnectionClass;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.*;
+import java.util.ResourceBundle;
 
-public class LoginController {
+public class LoginController implements Initializable {
 
     private Stage curentStage;
 
@@ -31,6 +37,9 @@ public class LoginController {
     private TextField username;
 
     @FXML
+    private ComboBox<String> userRole;
+
+    @FXML
     private Button btnLogin;
 
     ResultSet rsLogin = null;
@@ -38,6 +47,12 @@ public class LoginController {
     public void loginAction(ActionEvent actionEvent) throws SQLException, IOException {
         String pass = password.getText();
         String uname = username.getText();
+        Boolean role = false;
+        String myhome = "views/home-client.fxml";
+        if(userRole.getSelectionModel().getSelectedItem() == "admin"){
+            myhome = "views/home.fxml";
+            role = true;
+        }
         System.out.println(uname + " dan "+ pass);
 
 
@@ -49,21 +64,26 @@ public class LoginController {
 //        String sql = "INSERT INTO table1 VALUES('"+uname +"')";
 
         try {
-            String sqlLogin = "SELECT * FROM login WHERE username = ? AND password = ?";
+            String sqlLogin = "SELECT * FROM login WHERE username = ? AND password = ? AND user_login_role = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlLogin);
             preparedStatement.setString(1, uname);
             preparedStatement.setString(2, pass);
+            preparedStatement.setBoolean(3, role);
             rsLogin = preparedStatement.executeQuery();
 
             if (rsLogin.next()){
                 curentStage = Main.getStage();
-                curentStage.setMaximized(true);
+//                curentStage.setMaximized(true);
 
-                Parent dashboard = FXMLLoader.load(getClass().getResource("views/dashboard.fxml"));
-                curentStage.setScene(new Scene(dashboard));
+                Parent dashboard = FXMLLoader.load(getClass().getResource(myhome));
+                curentStage.setScene(new Scene(dashboard, 1200, 700));
+
                 curentStage.show();
 
                 ShareVariable.setUserid(rsLogin.getString(2));
+                ShareVariable.setSharehome(myhome);
+                ShareVariable.setUserRole(userRole.getSelectionModel().getSelectedItem());
+                ShareVariable.setUsername(uname);
 
             }else{
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -87,4 +107,9 @@ public class LoginController {
     }
 
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        ObservableList data = FXCollections.observableArrayList("user", "admin");
+        userRole.setItems(data);
+    }
 }

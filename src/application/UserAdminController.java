@@ -3,6 +3,8 @@ package application;
 import application.connectifity.ConnectionClass;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +17,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -81,6 +84,22 @@ public class UserAdminController implements Initializable {
     }
 
     @FXML
+    private Button kembali;
+
+    @FXML
+    void doKembali(ActionEvent event) {
+        try {
+            Stage curentStage = Main.getStage();
+            Parent dashboard = FXMLLoader.load(getClass().getResource(ShareVariable.getSharehome()));
+            curentStage.setScene(new Scene(dashboard));
+            curentStage.show();
+//            curentStage.setMaximized(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     void doSearchUser(ActionEvent event) {
 
     }
@@ -125,7 +144,6 @@ public class UserAdminController implements Initializable {
     }
 
     void generateDataTable(){
-        ObservableList<ModelLoginUser> dataloginAdmin = FXCollections.observableArrayList();
         ObservableList<ModelLoginUser> dataloginClient = FXCollections.observableArrayList();
 
         try{
@@ -157,6 +175,33 @@ public class UserAdminController implements Initializable {
             }
 
             clientTabel.setItems(dataloginClient);
+
+
+            FilteredList<ModelLoginUser> filteredList = new FilteredList<>(dataloginClient, b -> true);
+            searchUser.textProperty().addListener((observable, oldValue, newValue) -> {
+                filteredList.setPredicate(model_barang -> {
+                    if (newValue == null || newValue.isEmpty()){
+                        return true;
+                    }
+
+                    String lowerCaseFilter = newValue.toLowerCase();
+
+                    if (model_barang.getNip().indexOf(lowerCaseFilter) != -1){
+                        return true;
+                    }else if(model_barang.getNama().toLowerCase().indexOf(lowerCaseFilter) != -1 ){
+                        return true;
+                    }else if(model_barang.getUsername().toLowerCase().indexOf(lowerCaseFilter) != -1){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                });
+            });
+
+            SortedList<ModelLoginUser> sortedList = new SortedList<>(filteredList);
+            sortedList.comparatorProperty().bind(clientTabel.comparatorProperty());
+
+            clientTabel.setItems(sortedList);
 
         }catch (Exception e){
             e.printStackTrace();

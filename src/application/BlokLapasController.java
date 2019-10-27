@@ -3,13 +3,20 @@ package application;
 import application.connectifity.ConnectionClass;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,6 +29,9 @@ public class BlokLapasController implements Initializable {
     private ObservableList listBlok;
     private ObservableList listKamar;
     private String GlobalKamarid = "";
+
+    @FXML
+    private TextField searchbon;
 
     @FXML
     private TableView<ModelBlokLapasNapi> tableBlokLapas;
@@ -52,6 +62,22 @@ public class BlokLapasController implements Initializable {
 
     @FXML
     private Button resetTable;
+
+    @FXML
+    private Button kembali;
+
+    @FXML
+    void doKembali(ActionEvent event) {
+        try {
+            Stage curentStage = Main.getStage();
+            Parent dashboard = FXMLLoader.load(getClass().getResource(ShareVariable.getSharehome()));
+            curentStage.setScene(new Scene(dashboard));
+            curentStage.show();
+//            curentStage.setMaximized(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     void resetTable(ActionEvent event) {
@@ -189,6 +215,32 @@ public class BlokLapasController implements Initializable {
         }
 
         tableBlokLapas.setItems(data);
+
+        FilteredList<ModelBlokLapasNapi> filteredList = new FilteredList<>(data, b -> true);
+        searchbon.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredList.setPredicate(model_barang -> {
+                if (newValue == null || newValue.isEmpty()){
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (model_barang.getId().indexOf(lowerCaseFilter) != -1){
+                    return true;
+                }else if(model_barang.getNama().toLowerCase().indexOf(lowerCaseFilter) != -1 ){
+                    return true;
+                }else if(model_barang.getKamar().toLowerCase().indexOf(lowerCaseFilter) != -1){
+                    return true;
+                }else{
+                    return false;
+                }
+            });
+        });
+
+        SortedList<ModelBlokLapasNapi> sortedList = new SortedList<>(filteredList);
+        sortedList.comparatorProperty().bind(tableBlokLapas.comparatorProperty());
+
+        tableBlokLapas.setItems(sortedList);
     }
 
     void createaBtnView(String typebtn){

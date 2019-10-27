@@ -3,7 +3,10 @@ package application;
 import application.connectifity.ConnectionClass;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -62,12 +66,42 @@ public class DataNapiController implements Initializable {
     private Button btn_add_data_napi;
 
     @FXML
+    private Button kembali;
+
+    @FXML
+    private TextField search;
+
+    @FXML
+    void doKembali(ActionEvent event) {
+        try {
+            Stage curentStage = Main.getStage();
+            Parent dashboard = FXMLLoader.load(getClass().getResource(ShareVariable.getSharehome()));
+            curentStage.setScene(new Scene(dashboard));
+            curentStage.show();
+
+
+//            curentStage.setMaximized(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     void openNapiForm(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("views/data_napi_tambah.fxml"));
         Parent parent = fxmlLoader.load();
         Stage stage = new Stage();
         stage.setScene(new Scene(parent, 600, 500));
         stage.show();
+
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                ShareVariable.setPegawaiId(null);
+                ShareVariable.setSharePegawai(null);
+                ShareVariable.setNapiId(null);
+            }
+        });
 
     }
 
@@ -120,6 +154,32 @@ public class DataNapiController implements Initializable {
             e.printStackTrace();
         }
         table_data_pegawai.setItems(data_napi);
+
+        FilteredList<ModelDataNapi> filteredList = new FilteredList<>(data_napi, b -> true);
+        search.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredList.setPredicate(model_barang -> {
+                if (newValue == null || newValue.isEmpty()){
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (model_barang.getNapiid().indexOf(lowerCaseFilter) != -1){
+                    return true;
+                }else if(model_barang.getNapinama().toLowerCase().indexOf(lowerCaseFilter) != -1 ){
+                    return true;
+                }else if(model_barang.getNapikamar().toLowerCase().indexOf(lowerCaseFilter) != -1){
+                    return true;
+                }else{
+                    return false;
+                }
+            });
+        });
+
+        SortedList<ModelDataNapi> sortedList = new SortedList<>(filteredList);
+        sortedList.comparatorProperty().bind(table_data_pegawai.comparatorProperty());
+
+        table_data_pegawai.setItems(sortedList);
     }
 
     public void generateTable(){

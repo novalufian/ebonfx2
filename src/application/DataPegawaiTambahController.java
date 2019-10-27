@@ -89,8 +89,8 @@ public class DataPegawaiTambahController implements Initializable {
                 alert.setHeaderText("Selamat data pegawai sudah berhasil ditambahkan");
                 alert.showAndWait();
                 reset();
-
                 ShareVariable.setSharePegawai(null);
+
             }else{
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Peringatan");
@@ -135,6 +135,7 @@ public class DataPegawaiTambahController implements Initializable {
 
     void generateUpdatePegawai(){
         ModelDataPegawai data = ShareVariable.getSharePegawai();
+        System.out.printf(data.getNama());
 
         nip.setText(data.getNip());
         nama.setText(data.getNama());
@@ -158,6 +159,8 @@ public class DataPegawaiTambahController implements Initializable {
         }catch(Exception e){
 
         }
+
+
     }
 
     @Override
@@ -170,6 +173,7 @@ public class DataPegawaiTambahController implements Initializable {
         }else{
             btnTambah.setText("Tambah data pegawai");
         }
+
 
     }
 }

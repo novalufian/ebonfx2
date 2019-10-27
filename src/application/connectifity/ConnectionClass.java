@@ -5,6 +5,10 @@ import java.sql.DriverManager;
 
 public class ConnectionClass {
 
+//    private String uname = "ssFGUbaB52";
+//    private String pass = "2TI9aSQNDe";
+//    private String host = "jdbc:mysql://remotemysql.com:3306/ssFGUbaB52";
+
     private String uname = "root";
     private String pass = "leon1108";
     private String host = "jdbc:mysql://localhost:3306/ebonpas";
