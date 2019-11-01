@@ -8,8 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DataPegawaiTambahController">
+<AnchorPane prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.DataPegawaiTambahController">
    <children>
       <Pane prefHeight="66.0" prefWidth="600.0" style="-fx-background-color: #505bda;">
          <children>
@@ -28,6 +27,7 @@
       <Text layoutX="39.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nama pegawai" />
       <Text layoutX="39.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subagian" />
       <Text layoutX="39.0" layoutY="292.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jenis kelamin" />
-      <Button fx:id="btnTambah" layoutX="337.0" layoutY="355.0" onAction="#tambahData" mnemonicParsing="false" prefHeight="40.0" prefWidth="198.0" style="-fx-background-color: #505bda;" text="Tambah pegawai baru" textFill="WHITE" />
+      <Button fx:id="btnTambah" layoutX="337.0" layoutY="355.0" mnemonicParsing="false" onAction="#tambahData" prefHeight="40.0" prefWidth="198.0" style="-fx-background-color: #505bda;" text="Tambah pegawai baru" textFill="WHITE" />
+      <Button fx:id="chooseFile" layoutX="337.0" layoutY="321.0" mnemonicParsing="false" onAction="#dochooseFile" prefHeight="26.0" prefWidth="198.0" text="Button" />
    </children>
 </AnchorPane>

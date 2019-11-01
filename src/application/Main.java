@@ -19,36 +19,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("views/admin.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("views/login.fxml"));
 
         currentStage = primaryStage;
 
         currentStage.setTitle("Hello World");
         currentStage.setScene(new Scene(root, 600, 400));
         currentStage.show();
-//        currentStage.setMaximized(true);
-
-//        currentStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-//            @Override
-//            public void handle(WindowEvent event) {
-//                Template_error template_error = new Template_error();
-//
-//                ConnectionClass connectionClass = new ConnectionClass();
-//                Connection connection = connectionClass.getConnection();
-//
-//                try {
-//                    connection.setAutoCommit(false);
-//
-//
-//
-//                    connection.commit();
-//                    connection.setAutoCommit(true);
-//
-//                }catch (Exception e){
-//                    template_error.error(e);
-//                }
-//            }
-//        });
     }
 
     public static Stage getStage(){

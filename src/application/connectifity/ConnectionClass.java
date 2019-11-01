@@ -11,7 +11,7 @@ public class ConnectionClass {
 
     private String uname = "root";
     private String pass = "leon1108";
-    private String host = "jdbc:mysql://localhost:3306/ebonpas";
+    private String host = "jdbc:mysql://192.168.1.2:3306/ebonpas";
     public Connection connection;
 
     public Connection getConnection(){

@@ -9,6 +9,11 @@ module ebonpas.javafx {
     requires java.sql;
 
     requires mysql.connector.java;
+    exports  application.controllers;
+    exports  application.models;
 
+    opens application.controllers;
+    opens application.views;
+    opens application.models;
     opens application;
 }

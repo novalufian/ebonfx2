@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane prefHeight="447.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DataUserAdminTambahController">
+<AnchorPane prefHeight="447.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.DataUserAdminTambahController">
    <children>
       <Pane prefHeight="78.0" prefWidth="600.0" style="-fx-background-color: #505bda;">
          <children>
@@ -21,7 +21,7 @@
          </children>
       </Pane>
       <TextField fx:id="pegawai" layoutX="210.0" layoutY="132.0" prefHeight="40.0" prefWidth="235.0" promptText="Pegawai" />
-      <Button fx:id="searchButton" layoutX="445.0" layoutY="132.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="65.0" text="Search" />
+      <Button fx:id="searchButton" layoutX="445.0" layoutY="132.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="65.0" text="Search" onAction="#doOpenFormpegawai"/>
       <TextField fx:id="username" layoutX="210.0" layoutY="180.0" prefHeight="40.0" prefWidth="300.0" promptText="Username" />
       <TextField fx:id="password" layoutX="210.0" layoutY="229.0" prefHeight="40.0" prefWidth="300.0" promptText="Password" />
       <ComboBox fx:id="roleUser" layoutX="210.0" layoutY="276.0" prefHeight="40.0" prefWidth="300.0" promptText="Role user" />

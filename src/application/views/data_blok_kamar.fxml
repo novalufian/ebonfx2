@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="679.0" prefWidth="1018.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DataBlokKamarController">
+<AnchorPane prefHeight="679.0" prefWidth="1018.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.DataBlokKamarController">
    <children>
       <TableView fx:id="tableBlok" layoutX="50.0" layoutY="74.0" prefHeight="431.0" prefWidth="364.0">
         <columns>
