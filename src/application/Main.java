@@ -1,17 +1,14 @@
 package application;
 
-import application.connectifity.ConnectionClass;
-import application.connectifity.Template_error;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
-import java.sql.Connection;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Main extends Application {
 
@@ -26,6 +23,11 @@ public class Main extends Application {
         currentStage.setTitle("Hello World");
         currentStage.setScene(new Scene(root, 600, 400));
         currentStage.show();
+        currentStage.setMaximized(true);
+
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = new Date();
+        System.out.println(dateFormat.format(date));
     }
 
     public static Stage getStage(){

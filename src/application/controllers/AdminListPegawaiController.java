@@ -77,7 +77,7 @@ public class AdminListPegawaiController implements Initializable {
                         rs.getString("nama_pegawai"),
                         rs.getString("nama"),
                         jk,
-                        rs.getString("ttd_pegawai"),
+                        rs.getBlob("ttd_pegawai"),
                         new Button("view"),
                         new Button("update"),
                         new Button("delete")

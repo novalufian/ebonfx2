@@ -121,6 +121,8 @@ public class UserAdminController implements Initializable {
         try{
             ShareVariable.setLoginid(null);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/application/views/data_user_admin_tambah.fxml"));
+            DataUserAdminTambahController controller = new DataUserAdminTambahController(null, this);
+            fxmlLoader.setController(controller);
             Parent parent = fxmlLoader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(parent, 600, 450));
@@ -132,7 +134,7 @@ public class UserAdminController implements Initializable {
     }
 
 
-    void reset(){
+    public void reset(){
         generateDataTable();
         generateTableClient();
     }
@@ -286,7 +288,9 @@ public class UserAdminController implements Initializable {
         try{
             ShareVariable.setLoginid(id);
 
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("views/data_user_admin_tambah.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/application/views/data_user_admin_tambah.fxml"));
+            DataUserAdminTambahController controller = new DataUserAdminTambahController(obj, this);
+            fxmlLoader.setController(controller);
             Parent parent = fxmlLoader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(parent, 600, 500));

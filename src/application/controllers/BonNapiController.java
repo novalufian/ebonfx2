@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -245,6 +247,10 @@ public class BonNapiController implements Initializable {
         generateTable();
         generateTableData();
 
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        java.util.Date date = new java.util.Date();
+        tanggal.setText("Malang, "+dateFormat.format(date));
+
         ObservableList<ModelBlokLapasNapi> data = ShareVariable.getCartBookingNapi();
         if (data.size() <= 0){
             btnBatalkanBon.setDisable(true);
@@ -272,11 +278,12 @@ public class BonNapiController implements Initializable {
                 textSubag.setText(rs.getString("nama"));
                 subagianId =rs.getString("subag_pegawai");
                 Blob blob = rs.getBlob("ttd_pegawai");
-                InputStream inputStream = blob.getBinaryStream();
-                Image image = new Image(inputStream);
-                inputStream.close();
-                System.out.println(inputStream);
-                imgTtd.setImage(image);
+
+                try {
+                    InputStream is = blob.getBinaryStream();
+                    Image img = new Image(is);
+                    imgTtd.setImage(img);
+                }catch (Exception e){}
             }
 
         }catch (Exception e){

@@ -74,11 +74,9 @@ public class LoginController implements Initializable {
 
             if (rsLogin.next()){
                 curentStage = Main.getStage();
-                curentStage.setMaximized(true);
-
                 Parent dashboard = FXMLLoader.load(getClass().getResource(myhome));
                 curentStage.setScene(new Scene(dashboard, 1200, 700));
-
+                curentStage.setMaximized(true);
                 curentStage.show();
 
                 ShareVariable.setUserid(rsLogin.getString(2));

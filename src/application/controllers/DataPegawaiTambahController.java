@@ -15,6 +15,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -31,17 +33,21 @@ import java.util.ResourceBundle;
 
 public class DataPegawaiTambahController implements Initializable {
 
-    ObservableList globalListData = FXCollections.observableArrayList();
 
     ConnectionClass connectionClass = new ConnectionClass();
     Connection connection = connectionClass.getConnection();
-
+    Template_error template_error = new Template_error();
+    ObservableList globalListData = FXCollections.observableArrayList();
     ObservableList listDataSubagian = FXCollections.observableArrayList();
 
     FileChooser fileChooser = new FileChooser();
     File chosefile = null;
 
-    Template_error template_error = new Template_error();
+    DataPegawaiController dataPegawaiController;
+
+    public DataPegawaiTambahController(DataPegawaiController dp) {
+        dataPegawaiController = dp;
+    }
 
     @FXML
     private TextField nip;
@@ -59,28 +65,41 @@ public class DataPegawaiTambahController implements Initializable {
     private Button btnTambah;
 
     @FXML
+    private ImageView ttdImage;
+
+    @FXML
     private Button chooseFile;
 
     @FXML
     void dochooseFile(ActionEvent event) {
         Stage stage = (Stage) btnTambah.getScene().getWindow();
         chosefile = fileChooser.showOpenDialog(stage);
+
+        if(chosefile != null){
+            System.out.println(chosefile.toURI().toString());
+        }
+        Image image = new Image(chosefile.toURI().toString());
+        ttdImage.setImage(image);
+
     }
     @FXML
     void tambahData(ActionEvent event) {
-        int rs = 0;
-        int index =  subag.getSelectionModel().getSelectedIndex();
-        ObservableList x = (ObservableList) globalListData.get(index);
-        String y = (String) x.get(0);
-
-        Boolean _jk = true;
-        if (jk.getValue() != "laki-laki"){
-            _jk = false;
-        }
 
         if (nip.getText().trim().isEmpty() || nama.getText().trim().isEmpty() || jk.getSelectionModel().getSelectedIndex() < 0 || subag.getSelectionModel().getSelectedIndex() < 0 ){
             template_error.warning("Perinagtan", "silahakan isi form terlebih dahulu");
         }else{
+
+            int rs = 0;
+            int index =  subag.getSelectionModel().getSelectedIndex();
+            ObservableList x = (ObservableList) globalListData.get(index);
+            String y = (String) x.get(0);
+
+            Boolean _jk = true;
+            if (jk.getValue() != "laki-laki"){
+                _jk = false;
+            }
+
+
             try{
                 if (ShareVariable.getPegawaiId() == null){
                     String sql = "INSERT INTO data_pegawai " +
@@ -92,18 +111,28 @@ public class DataPegawaiTambahController implements Initializable {
                     statement.setString(3, nama.getText());
                     statement.setString(4, y);
                     statement.setBoolean(5, _jk);
-                    statement.setBlob(6, new FileInputStream(chosefile));
+
+                    FileInputStream fis = new FileInputStream(chosefile);
+                    statement.setBinaryStream(6, (FileInputStream) fis, (int) chosefile.length());
                     rs = statement.executeUpdate();
                 }else{
                     String sql = "UPDATE data_pegawai SET " +
-                            " nip_pegawai = ?, nama_pegawai = ?, subag_pegawai= ?, jenis_kelamin_pegawai = ? " +
+                            " nip_pegawai = ?, nama_pegawai = ?, subag_pegawai= ?, jenis_kelamin_pegawai = ?, ttd_pegawai = ? " +
                             "WHERE user_id = ?";
                     PreparedStatement statement = connection.prepareStatement(sql);
                     statement.setString(1, nip.getText());
                     statement.setString(2, nama.getText());
                     statement.setString(3, y);
                     statement.setBoolean(4, _jk);
-                    statement.setString(5, ShareVariable.getPegawaiId());
+                    statement.setString(6, ShareVariable.getPegawaiId());
+
+                    if (chosefile != null){
+                        FileInputStream fis = new FileInputStream(chosefile);
+                        statement.setBinaryStream(5, (FileInputStream) fis, (int) chosefile.length());
+                    }else{
+                        statement.setBinaryStream(5, ShareVariable.getSharePegawai().getTtd().getBinaryStream());
+                    }
+
                     rs = statement.executeUpdate();
                 }
 
@@ -113,7 +142,11 @@ public class DataPegawaiTambahController implements Initializable {
                     alert.setHeaderText("Selamat data pegawai sudah berhasil ditambahkan");
                     alert.showAndWait();
                     reset();
+                    dataPegawaiController.reset();
                     ShareVariable.setSharePegawai(null);
+
+                    Stage stage = (Stage) btnTambah.getScene().getWindow();
+                    stage.close();
 
                 }else{
                     Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -157,7 +190,6 @@ public class DataPegawaiTambahController implements Initializable {
         subag.setItems(dataList);
     }
 
-
     void generateUpdatePegawai(){
         ModelDataPegawai data = ShareVariable.getSharePegawai();
         System.out.printf(data.getNama());
@@ -166,6 +198,13 @@ public class DataPegawaiTambahController implements Initializable {
         nama.setText(data.getNama());
         subag.getSelectionModel().select(data.getBagian());
         jk.getSelectionModel().select(data.getSk());
+
+        try {
+            InputStream is = data.getTtd().getBinaryStream();
+            Image img = new Image(is);
+            ttdImage.setImage(img);
+        }catch (Exception e){}
+
     }
 
     void reset(){

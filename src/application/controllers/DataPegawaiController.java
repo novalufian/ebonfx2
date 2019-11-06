@@ -93,6 +93,8 @@ public class DataPegawaiController  implements Initializable {
     void openFormTambah(ActionEvent event) {
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/application/views/data_pegawai_tambah.fxml"));
+            DataPegawaiTambahController dataPegawaiTambahController = new DataPegawaiTambahController(this);
+            fxmlLoader.setController(dataPegawaiTambahController);
             Parent parent = fxmlLoader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(parent, 600, 500));
@@ -141,7 +143,7 @@ public class DataPegawaiController  implements Initializable {
                         rs.getString("nama_pegawai"),
                         rs.getString("nama"),
                         jk,
-                        rs.getString("ttd_pegawai"),
+                        rs.getBlob("ttd_pegawai"),
                         new Button("view"),
                         new Button("update"),
                         new Button("delete")
@@ -217,10 +219,10 @@ public class DataPegawaiController  implements Initializable {
 
         switch (typebtn){
             case "update" :
-                view.setCellFactory(cellFactory);
+                update.setCellFactory(cellFactory);
                 break;
             case "view" :
-                update.setCellFactory(cellFactory);
+                view.setCellFactory(cellFactory);
                 break;
             case "delete":
                 delete.setCellFactory(cellFactory);
@@ -245,11 +247,16 @@ public class DataPegawaiController  implements Initializable {
 
     void acationUpdate(String id, ModelDataPegawai obj){
 
+        System.out.println("update data 3");
+
+
         ShareVariable.setPegawaiId(id);
         ShareVariable.setSharePegawai(obj);
 
         try{
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("views/data_pegawai_tambah.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/application/views/data_pegawai_tambah.fxml"));
+            DataPegawaiTambahController dataPegawaiTambahController = new DataPegawaiTambahController(this);
+            fxmlLoader.setController(dataPegawaiTambahController);
             Parent parent = fxmlLoader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(parent, 600, 500));
@@ -264,7 +271,7 @@ public class DataPegawaiController  implements Initializable {
                 }
             });
         }catch (Exception e){
-
+            e.printStackTrace();
         }
 
         int rs = 0;

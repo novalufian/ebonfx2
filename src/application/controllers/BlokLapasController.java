@@ -2,6 +2,8 @@ package application.controllers;
 
 import application.Main;
 import application.models.ModelBlokLapasNapi;
+import application.models.ModelDataNapi;
+import application.models.ModelDataSubagian;
 import application.models.ShareVariable;
 import application.connectifity.ConnectionClass;
 import javafx.collections.FXCollections;
@@ -17,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -34,6 +37,16 @@ public class BlokLapasController implements Initializable {
     private ObservableList listBlok;
     private ObservableList listKamar;
     private String GlobalKamarid = "";
+    ObservableList subagian = FXCollections.observableArrayList();
+
+    @FXML
+    private Text totalNapi;
+
+    @FXML
+    private Text napiDiluar;
+
+    @FXML
+    private Text napiDidalam;
 
     @FXML
     private AnchorPane mainAnchorpane;
@@ -73,6 +86,12 @@ public class BlokLapasController implements Initializable {
 
     @FXML
     private Button kembali;
+
+    @FXML
+    private ListView<String> listSubagian;
+
+    @FXML
+    private ListView<String> listSubagianValue;
 
     @FXML
     void doKembali(ActionEvent event) {
@@ -193,11 +212,15 @@ public class BlokLapasController implements Initializable {
         ConnectionClass connectionClass = new ConnectionClass();
         Connection connection = connectionClass.getConnection();
 
+        int jumlahNapiBooked = 0;
+
         try{
             String sql = "SELECT * FROM data_napi " +
+                    "LEFT JOIN data_pegawai ON data_napi.napi_booked_by = data_pegawai.user_id " +
+                    "LEFT JOIN master_subagian ON data_pegawai.subag_pegawai = master_subagian.subagian_id " +
                     "LEFT JOIN master_kamar ON data_napi.napi_kamar = master_kamar.master_kamar_id " +
                     "LEFT JOIN master_blok ON master_kamar.master_blok_id = master_blok.blok_master_id " +
-                    "WHERE data_napi.napi_published = 1 AND data_napi.napi_booked = 0 "+
+                    "WHERE data_napi.napi_published = 1 "+ //AND data_napi.napi_booked = 0
                     addSql;
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet rs =  preparedStatement.executeQuery();
@@ -206,6 +229,7 @@ public class BlokLapasController implements Initializable {
                 String st = "unbooked";
                 if (rs.getBoolean("napi_booked")){
                     st = "booked";
+                    jumlahNapiBooked++;
                 }
                 data.add(new ModelBlokLapasNapi(
                         rs.getString("napi_id"),
@@ -213,15 +237,22 @@ public class BlokLapasController implements Initializable {
                         rs.getString("blok_nama"),
                         rs.getString("nama_kamar"),
                         st,
+                        rs.getString("nama"),
                         new Button("book")
                 ));
+
             }
 
         }catch (Exception e){
             e.printStackTrace();
         }
 
+
         tableBlokLapas.setItems(data);
+        totalNapi.setText(String.valueOf(data.size()));
+        napiDiluar.setText(String.valueOf(jumlahNapiBooked));
+        napiDidalam.setText(String.valueOf(data.size() - jumlahNapiBooked));
+
 
         FilteredList<ModelBlokLapasNapi> filteredList = new FilteredList<>(data, b -> true);
         searchbon.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -250,6 +281,7 @@ public class BlokLapasController implements Initializable {
         tableBlokLapas.setItems(sortedList);
     }
 
+
     void createaBtnView(String typebtn){
         Callback<TableColumn<ModelBlokLapasNapi, Button>, TableCell<ModelBlokLapasNapi, Button>> cellFactory =
                 new Callback<TableColumn<ModelBlokLapasNapi, Button>, TableCell<ModelBlokLapasNapi, Button>>() {
@@ -261,6 +293,7 @@ public class BlokLapasController implements Initializable {
 
                             final  Button btn = new Button(typebtn);
 
+
                             @Override
                             public void updateItem(Button item, boolean empty){
                                 super.updateItem(item, empty);
@@ -269,10 +302,18 @@ public class BlokLapasController implements Initializable {
                                     setGraphic(null);
                                     setText(null);
                                 }else{
+                                    ModelBlokLapasNapi napi = getTableView().getItems().get(getIndex());
+
                                     btn.setOnAction(event -> {
-                                        ModelBlokLapasNapi napi = getTableView().getItems().get(getIndex());
                                         bookNapi(napi.getId(), napi);
                                     });
+
+                                    if (napi.getStatus() == "booked"){
+                                        btn.setDisable(true);
+                                        btn.setText("booked");
+                                    }else{
+                                        btn.setStyle("-fx-background-color : blue; -fx-text-fill : white;");
+                                    }
 
                                     setGraphic(btn);
                                     setText(null);
@@ -345,6 +386,7 @@ public class BlokLapasController implements Initializable {
                         obj.getBlok(),
                         obj.getKamar(),
                         obj.getStatus(),
+                        obj.getSubagian(),
                         new Button("oke")
                 ));
                 ShareVariable.setCartBookingNapi(data);
@@ -362,6 +404,25 @@ public class BlokLapasController implements Initializable {
         }
     }
 
+    void generateDataSubagian(){
+        try {
+            String sql = "SELECT * FROM master_subagian";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            int x = 1;
+            while (rs.next()){
+                subagian.add(
+                        rs.getString("nama")
+                );
+            }
+
+            listSubagian.setItems(subagian);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -370,6 +431,7 @@ public class BlokLapasController implements Initializable {
 
         createListCOmbo();
         generateTable();
+        generateDataSubagian();
         mainAnchorpane.setPrefWidth(Screen.getPrimary().getVisualBounds().getWidth());
         mainAnchorpane.setPrefHeight(Screen.getPrimary().getVisualBounds().getHeight());
     }

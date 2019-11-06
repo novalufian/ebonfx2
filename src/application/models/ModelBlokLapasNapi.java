@@ -4,15 +4,16 @@ import javafx.scene.control.Button;
 
 public class ModelBlokLapasNapi {
 
-    String id, nama, blok, kamar, status;
+    String id, nama, blok, kamar, status, subagian;
     Button book;
 
-    public ModelBlokLapasNapi(String id, String nama, String blok, String kamar, String status, Button book) {
+    public ModelBlokLapasNapi(String id, String nama, String blok, String kamar, String status, String subagian, Button book) {
         this.id = id;
         this.nama = nama;
         this.blok = blok;
         this.kamar = kamar;
         this.status = status;
+        this.subagian = subagian;
         this.book = book;
     }
 
@@ -54,6 +55,14 @@ public class ModelBlokLapasNapi {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getSubagian() {
+        return subagian;
+    }
+
+    public void setSubagian(String subagian) {
+        this.subagian = subagian;
     }
 
     public Button getBook() {

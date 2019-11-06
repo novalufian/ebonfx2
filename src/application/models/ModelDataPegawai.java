@@ -2,9 +2,11 @@ package application.models;
 
 import javafx.scene.control.Button;
 
+import java.sql.Blob;
+
 public class ModelDataPegawai {
 
-    public ModelDataPegawai(String id, String nip, String nama, String bagian, String sk, String ttd, Button view, Button update, Button delete) {
+    public ModelDataPegawai(String id, String nip, String nama, String bagian, String sk, Blob ttd, Button view, Button update, Button delete) {
         this.id = id;
         this.nip = nip;
         this.nama = nama;
@@ -80,16 +82,17 @@ public class ModelDataPegawai {
         this.delete = delete;
     }
 
-    public String getTtd() {
+    public Blob getTtd() {
         return ttd;
     }
 
-    public void setTtd(String ttd) {
+    public void setTtd(Blob ttd) {
         this.ttd = ttd;
     }
 
 
-    String id, nip, nama, bagian, sk, ttd;
+    String id, nip, nama, bagian, sk;
+    Blob ttd;
     Button view, update, delete;
 
 }

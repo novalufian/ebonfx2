@@ -1,6 +1,7 @@
 package application.controllers;
 
 import application.connectifity.Template_error;
+import application.models.ModelLoginUser;
 import application.models.ShareVariable;
 import application.connectifity.ConnectionClass;
 import javafx.collections.FXCollections;
@@ -33,6 +34,13 @@ public class DataUserAdminTambahController implements Initializable {
     public String userid = null;
 
     Template_error template_error = new Template_error();
+    ModelLoginUser modelLoginUser ;
+    UserAdminController userAdminController;
+
+    public DataUserAdminTambahController(ModelLoginUser mlu, UserAdminController usa) {
+        modelLoginUser = mlu;
+        userAdminController = usa;
+    }
 
     @FXML
     public TextField pegawai;
@@ -86,7 +94,7 @@ public class DataUserAdminTambahController implements Initializable {
                     }else{
                         String sql = "UPDATE login SET user_id = ?, username = ? , password = ? , user_login_role = ? WHERE login_id = ?";
                         PreparedStatement statement = connection.prepareStatement(sql);
-                        statement.setString(1, pegawai.getText());
+                        statement.setString(1, userid);
                         statement.setString(2, username.getText());
                         statement.setString(3, password.getText());
                         statement.setBoolean(4,x);
@@ -104,6 +112,7 @@ public class DataUserAdminTambahController implements Initializable {
                         reset();
                         Stage stage = (Stage) btnSimpan.getScene().getWindow();
                         stage.close();
+                        userAdminController.reset();
                     }else{
                         Alert alert = new Alert(Alert.AlertType.WARNING);
                         alert.setTitle("Peringatan");
@@ -182,9 +191,10 @@ public class DataUserAdminTambahController implements Initializable {
                     Boolean role = rs.getBoolean("user_login_role");
                     String x = "Admin";
                     if(!role){
-                        x = "client";
+                        x = "Client";
                     }
-                    pegawai.setText(rs.getString("user_id"));
+                    userid = rs.getString("user_id");
+                    pegawai.setText(modelLoginUser.getNama());
                     username.setText(rs.getString("username"));
                     password.setText(rs.getString("password"));
                     roleUser.getSelectionModel().select(x);
