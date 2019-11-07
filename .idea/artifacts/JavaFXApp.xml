@@ -3,7 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/JavaFXApp</output-path>
     <properties id="javafx-properties">
       <options>
-        <option name="appClass" value="sample.Main" />
+        <option name="appClass" value="application.Main" />
         <option name="description" value="" />
         <option name="htmlPlaceholderId" value="" />
         <option name="icons">
@@ -22,10 +22,15 @@
     <root id="root">
       <element id="archive" name="JavaFXApp.jar">
         <element id="module-output" name="ebonpas-javafx" />
+        <element id="library" level="application" name="mysql-connector" />
+        <element id="file-copy" path="$PROJECT_DIR$/config.txt" />
+        <element id="library" level="project" name="controlsfx" />
         <element id="directory" name="META-INF">
-          <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+          <element id="file-copy" path="$PROJECT_DIR$/src/application/META-INF/MANIFEST.MF" />
         </element>
+        <element id="dir-copy" path="$PROJECT_DIR$/src/application/views/img" />
       </element>
+      <element id="file-copy" path="$PROJECT_DIR$/config.txt" />
     </root>
   </artifact>
 </component>

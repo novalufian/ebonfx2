@@ -1,6 +1,6 @@
 package application.controllers;
 
-import Application.libs.Error_template;
+import application.connectifity.Template_error;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,7 +17,7 @@ import java.util.Scanner;
 
 public class ConfigController implements Initializable {
 
-    Application.libs.Error_template error_template = new Error_template();
+    Template_error error_template = new Template_error();
 
     @FXML
     private TextField host;

@@ -1,6 +1,7 @@
 package application.controllers;
 
 import application.Main;
+import application.connectifity.Template_error;
 import application.models.ModelBlokLapasNapi;
 import application.models.ModelDataNapi;
 import application.models.ShareVariable;
@@ -39,6 +40,8 @@ public class BonNapiController implements Initializable {
     private static ConnectionClass connectionClass = new ConnectionClass();
     private static Connection connection ;
     private static String subagianId ;
+
+    Template_error template_error = new Template_error();
 
     @FXML
     private ImageView kopSurat;
@@ -118,30 +121,35 @@ public class BonNapiController implements Initializable {
 
     void clearCartBon(){
         ObservableList<ModelBlokLapasNapi> data = ShareVariable.getCartBookingNapi();
-        data.forEach(item ->{
-            try {
-                String sql = "UPDATE data_napi SET napi_booked = ?, napi_booked_by = ? WHERE napi_id = ?";
-                PreparedStatement statement = connection.prepareStatement(sql);
-                statement.setBoolean(1, false);
-                statement.setString(2, "");
-                statement.setString(3, item.getId());
+        try {
+            connection.setAutoCommit(false);
 
-                int rs = statement.executeUpdate();
-                if (rs > 0){
+            data.forEach(item ->{
+                try {
+                    String sql = "UPDATE data_napi SET napi_booked = ?, napi_booked_by = ? WHERE napi_id = ?";
+                    PreparedStatement statement = connection.prepareStatement(sql);
+                    statement.setBoolean(1, false);
+                    statement.setString(2, "");
+                    statement.setString(3, item.getId());
 
-                }else{
-                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("Peringatan");
-                    alert.setHeaderText("bon gagal dibersihkan");
-                    alert.showAndWait();
+                    int rs = statement.executeUpdate();
+                    if (rs > 0){
+
+                    }else{
+                        template_error.warning("Peringatan", "bon gagal diremove");
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                    template_error.error(e);
                 }
-            }catch (Exception e){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("ERROR");
-                alert.setHeaderText("bon gagal dibatalkan, periksa koneksi anda");
-                alert.showAndWait();
-            }
-        });
+            });
+
+            connection.commit();
+            connection.setAutoCommit(true);
+
+        }catch (Exception e){
+            template_error.error(e);
+        }
     }
 
     @FXML

@@ -1,6 +1,7 @@
 package application.controllers;
 
 import application.Main;
+import application.connectifity.Template_error;
 import application.models.ShareVariable;
 import application.connectifity.ConnectionClass;
 import javafx.collections.FXCollections;
@@ -25,6 +26,8 @@ import java.sql.*;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
+
+    Template_error error_template = new Template_error();
 
     private Stage curentStage;
 
@@ -58,6 +61,7 @@ public class LoginController implements Initializable {
             stage.show();
         }catch (Exception e){
             e.printStackTrace();
+            error_template.error(e);
         }
     }
 
@@ -113,8 +117,8 @@ public class LoginController implements Initializable {
             alert.setHeaderText("Tolong periksa koneksi anda");
             alert.showAndWait();
             e.printStackTrace();
+            error_template.error(e);
         }
-
     }
 
 
