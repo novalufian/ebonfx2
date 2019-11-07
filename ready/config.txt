@@ -1,0 +1,4 @@
+host=remotemysql.com
+uname=ssFGUbaB52
+pass=2TI9aSQNDe
+db=ssFGUbaB52
