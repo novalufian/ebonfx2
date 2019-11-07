@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #f5f0e3;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.controller.Controller_pembayaran">
+   <children>
+      <TextField fx:id="vocher" alignment="CENTER_RIGHT" layoutX="246.0" layoutY="303.0" prefHeight="30.0" prefWidth="282.0" promptText="0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="debitCard" alignment="CENTER_RIGHT" layoutX="246.0" layoutY="340.0" prefHeight="30.0" prefWidth="282.0" promptText="0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <Pane prefHeight="200.0" prefWidth="600.0" style="-fx-background-color: #40bfc1;">
+         <children>
+            <Text fill="WHITE" layoutX="12.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kembalian">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text fx:id="kembalian" fill="#c90303" layoutX="7.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rp. 0,-" textAlignment="CENTER" wrappingWidth="586.7294921875">
+               <font>
+                  <Font name="Noto Sans" size="64.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+      <Text layoutX="73.0" layoutY="359.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Debit card" wrappingWidth="103.7294921875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="73.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vocher" wrappingWidth="163.7294921875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <TextField fx:id="noKartu" alignment="CENTER_RIGHT" layoutX="246.0" layoutY="376.0" prefHeight="30.0" prefWidth="282.0" promptText="1232 3423 9877">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <Text layoutX="73.0" layoutY="395.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nomor kartu" wrappingWidth="103.7294921875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <TextField fx:id="bayartunai" alignment="CENTER_RIGHT" layoutX="246.0" layoutY="412.0" onKeyReleased="#onBayarTunai" prefHeight="30.0" prefWidth="282.0" promptText="100,000,-">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <Text layoutX="73.0" layoutY="431.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tunai" wrappingWidth="103.7294921875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <ComboBox fx:id="caraPembayaran" layoutX="246.0" layoutY="266.0" prefHeight="30.0" prefWidth="282.0" />
+      <Text layoutX="73.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cara pembayar" wrappingWidth="163.7294921875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="69.0" layoutY="540.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status" wrappingWidth="103.7294921875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text fx:id="status" fill="#fc0000" layoutX="137.0" layoutY="540.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Belum lunas" wrappingWidth="103.7294921875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Button fx:id="btnSImpan" layoutX="404.0" layoutY="515.0" mnemonicParsing="false" onAction="#simpanPenjualan" prefHeight="40.0" prefWidth="124.0" style="-fx-background-color: #f54291;" text="Simpan [ F9 ]" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnCetakStruk" layoutX="248.0" layoutY="515.0" mnemonicParsing="false" onAction="#cetakStrukPenjualan" prefHeight="40.0" prefWidth="148.0" style="-fx-background-color: #ffffff;" text="Cetak struk [ F10 ]" />
+      <TextField fx:id="totalBelanja" alignment="CENTER_RIGHT" layoutX="246.0" layoutY="229.0" prefHeight="30.0" prefWidth="282.0" promptText="0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <Text layoutX="73.0" layoutY="248.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total belanja" wrappingWidth="163.7294921875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <DatePicker fx:id="jatuhTempo" layoutX="246.0" layoutY="450.0" prefHeight="30.0" prefWidth="282.0" />
+      <Text layoutX="73.0" layoutY="469.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jatuh Tempo" wrappingWidth="103.7294921875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>
