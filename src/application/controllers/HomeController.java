@@ -131,8 +131,6 @@ public class HomeController implements Initializable {
             curentStage.setScene(new Scene(dashboard));
             curentStage.show();
 
-
-//            curentStage.setMaximized(true);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -147,7 +145,5 @@ public class HomeController implements Initializable {
 
         mainAnchorpane.setPrefWidth(Screen.getPrimary().getVisualBounds().getWidth());
         mainAnchorpane.setPrefHeight(Screen.getPrimary().getVisualBounds().getHeight());
-
-
     }
 }

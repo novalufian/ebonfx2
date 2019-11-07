@@ -45,6 +45,22 @@ public class LoginController implements Initializable {
 
     ResultSet rsLogin = null;
 
+    @FXML
+    private Button config;
+
+    @FXML
+    void doOpenConfig(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/application/views/config.fxml"));
+            Parent parent = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(parent, 500, 400));
+            stage.show();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     public void loginAction(ActionEvent actionEvent) throws SQLException, IOException {
         String pass = password.getText();
         String uname = username.getText();

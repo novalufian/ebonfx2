@@ -50,7 +50,7 @@
                             <Font size="12.0" />
                         </font>
                      <VBox.margin>
-                        <Insets bottom="5.0" top="100.0" />
+                        <Insets bottom="5.0" top="230.0" />
                      </VBox.margin>
                     </TextField>
                     <PasswordField fx:id="password" prefHeight="40.0" prefWidth="200.0" promptText="password">
@@ -77,6 +77,11 @@
                         <Insets top="10.0" />
                      </VBox.margin>
                     </Button>
+                  <Button fx:id="config" mnemonicParsing="false" onAction="#doOpenConfig" style="-fx-background-color: #f45905;" text="config" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets top="120.0" />
+                     </VBox.margin>
+                  </Button>
                </children>
             </VBox>
          </children>
