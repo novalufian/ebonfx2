@@ -1,0 +1,4 @@
+host=192.168.1.2
+uname=root
+pass=leon1108
+db=ebonpas
