@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -281,7 +282,6 @@ public class BlokLapasController implements Initializable {
         tableBlokLapas.setItems(sortedList);
     }
 
-
     void createaBtnView(String typebtn){
         Callback<TableColumn<ModelBlokLapasNapi, Button>, TableCell<ModelBlokLapasNapi, Button>> cellFactory =
                 new Callback<TableColumn<ModelBlokLapasNapi, Button>, TableCell<ModelBlokLapasNapi, Button>>() {
@@ -423,15 +423,23 @@ public class BlokLapasController implements Initializable {
 
     }
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ConnectionClass connectionClass = new ConnectionClass();
         connection = connectionClass.getConnection();
 
-        createListCOmbo();
-        generateTable();
-        generateDataSubagian();
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                Thread.sleep(1000);
+                createListCOmbo();
+                generateTable();
+                generateDataSubagian();
+                return null;
+            }
+        };
+
+        new Thread(task).start();
         mainAnchorpane.setPrefWidth(Screen.getPrimary().getVisualBounds().getWidth());
         mainAnchorpane.setPrefHeight(Screen.getPrimary().getVisualBounds().getHeight());
     }

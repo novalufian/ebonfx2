@@ -180,8 +180,6 @@ public class BonNapiController implements Initializable {
                 alert.showAndWait();
             }
 
-//            connection.commit();
-            connection.setAutoCommit(true);
 
         }catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -197,10 +195,10 @@ public class BonNapiController implements Initializable {
         AtomicInteger indexdata = new AtomicInteger();
 
         try{
-            connection.setAutoCommit(false);
 
             data.forEach(item -> {
                 try {
+                    connection.setAutoCommit(false);
 
                     String sql = "INSERT INTO bon_detail (bon_detail_id, bon_id, napi_id) " +
                             "VALUES (?,?,?)";
@@ -209,12 +207,13 @@ public class BonNapiController implements Initializable {
                     statement.setString(2, bonid);
                     statement.setString(3, item.getId());
 
+
                     int rs = statement.executeUpdate();
 
                     if (rs > 0 ){
                         indexdata.getAndIncrement();
-                        System.out.println(data.size() + " " + indexdata + " "+indexdata.equals(data.size()));
-                        if (indexdata.equals(data.size())){
+
+                        if (indexdata.intValue() == data.size()){
                             clearCartBon();
                             Alert alert = new Alert(Alert.AlertType.WARNING);
                             alert.setTitle("SUKSES");
@@ -222,7 +221,7 @@ public class BonNapiController implements Initializable {
                             alert.showAndWait();
 
                             connection.commit();
-                            connection.setAutoCommit(true);
+//                            connection.setAutoCommit(true);
                         }
 
                     }else{
