@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox prefHeight="550.0" prefWidth="500.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="50.0">
+         <children>
+            <TextField fx:id="textSearch" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" promptText="Search pegawai">
+               <padding>
+                  <Insets left="20.0" right="20.0" />
+               </padding>
+            </TextField>
+            <TableView fx:id="tablePegawai" prefHeight="473.0" prefWidth="500.0">
+              <columns>
+                <TableColumn fx:id="nip" prefWidth="136.0" text="Nip" />
+                <TableColumn fx:id="nama" prefWidth="158.0" text="Nama" />
+                  <TableColumn fx:id="subagian" prefWidth="124.0" text="Subagian" />
+                  <TableColumn fx:id="action" minWidth="8.0" prefWidth="81.0" text="Action" />
+              </columns>
+            </TableView>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

@@ -180,8 +180,6 @@ public class BonNapiController implements Initializable {
                 alert.showAndWait();
             }
 
-            connection.commit();
-            connection.setAutoCommit(true);
 
         }catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -195,8 +193,13 @@ public class BonNapiController implements Initializable {
     void doSimpanDetailBon(String bonid){
         ObservableList<ModelBlokLapasNapi> data = ShareVariable.getCartBookingNapi();
         AtomicInteger indexdata = new AtomicInteger();
+
+        try{
+
             data.forEach(item -> {
                 try {
+                    connection.setAutoCommit(false);
+
                     String sql = "INSERT INTO bon_detail (bon_detail_id, bon_id, napi_id) " +
                             "VALUES (?,?,?)";
                     PreparedStatement statement = connection.prepareStatement(sql);
@@ -204,15 +207,21 @@ public class BonNapiController implements Initializable {
                     statement.setString(2, bonid);
                     statement.setString(3, item.getId());
 
+
                     int rs = statement.executeUpdate();
+
                     if (rs > 0 ){
-                        clearCartBon();
                         indexdata.getAndIncrement();
-                        if (indexdata.equals(data.size())){
+
+                        if (indexdata.intValue() == data.size()){
+                            clearCartBon();
                             Alert alert = new Alert(Alert.AlertType.WARNING);
                             alert.setTitle("SUKSES");
                             alert.setHeaderText("Bon berhasil dikirim");
                             alert.showAndWait();
+
+                            connection.commit();
+//                            connection.setAutoCommit(true);
                         }
 
                     }else{
@@ -229,6 +238,9 @@ public class BonNapiController implements Initializable {
                     e.printStackTrace();
                 }
             });
+
+        }catch (Exception e){e.printStackTrace();}
+
 
     }
 
